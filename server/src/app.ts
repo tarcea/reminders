@@ -1,6 +1,6 @@
 import express, { Express } from 'express';
 import http from 'http';
-import { Server } from 'socket.io';
+import { Server, Socket } from 'socket.io';
 import cors from 'cors';
 import dotenv from 'dotenv';
 
@@ -13,7 +13,7 @@ const io = new Server(server);
 app.use(cors());
 app.use(express.json());
 
-io.on("connection", socket => {
+io.on("connection", (socket: Socket) => {
   console.log("New client connected" + socket.id);
   // socket.on("fetch_data", id => {
   //   TodoList.findById(id)
