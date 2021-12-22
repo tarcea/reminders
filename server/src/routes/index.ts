@@ -2,7 +2,8 @@ import { Router } from "express";
 import {
   getTodoLists,
   addTodoList,
-  addTodo
+  addTodo,
+  deleteTodo
 } from "../controllers";
 
 const router: Router = Router();
@@ -19,6 +20,6 @@ router.post("/lists/:id/todos", addTodo);
 
 // router.put("/lists/:id/todos/:id", updateTodo);
 
-// router.delete("/lists/:id/todos/:id", deleteTodo);
+router.delete("/lists/:listId/todos/:todoId", deleteTodo);
 
 export default router;
