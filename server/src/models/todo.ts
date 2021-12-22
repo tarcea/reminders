@@ -7,7 +7,6 @@ const todoSchema: Schema = new Schema(
       type: String,
       required: true,
     },
-
     description: {
       type: String,
       required: true,
@@ -16,11 +15,11 @@ const todoSchema: Schema = new Schema(
       type: String,
       required: false,
     },
-
-    status: {
+    done: {
       type: Boolean,
       required: true,
     },
+    // subtasks: [this],
   },
   { timestamps: true }
 );

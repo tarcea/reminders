@@ -15,10 +15,10 @@ const getTodoLists = async (req: Request, res: Response): Promise<void> => {
 
 const addTodoList = async (req: Request, res: Response): Promise<void> => {
   try {
-    const body = req.body as Pick<ITodoList, 'name' | 'status'>;
+    const body = req.body as Pick<ITodoList, 'name' | 'done'>;
     const todoList: ITodoList = new TodoList({
       name: body.name,
-      status: body.status,
+      done: body.done,
     });
 
     const newTodoList: ITodoList = await todoList.save();
@@ -37,13 +37,14 @@ const addTodo = async (req: Request, res: Response): Promise<void> => {
     const listId = req.params.id;
     const body = req.body as Pick<
       ITodo,
-      'name' | 'description' | 'cost' | 'status'
+      'name' | 'description' | 'cost' | 'done'
     >;
+    console.log(body)
     const todo: ITodo = new Todo({
       name: body.name,
       description: body.description,
       cost: body.cost,
-      status: body.status,
+      done: body.done,
     });
     await TodoList.updateOne({ _id: listId }, { $push: { todos: todo } });
 
@@ -73,9 +74,26 @@ const deleteTodo = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
+const deleteList = async (req: Request, res: Response): Promise<void> => {
+  try {
+    // TODO: allow list deletion just if the todos array is empty or all todos are done
+    const { listId } = req.params;
+
+    await TodoList.findOneAndDelete(
+      { _id: listId }
+    ).exec();
+    res.status(200).json({
+      message: 'list deleted'
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
 export {
   getTodoLists,
   addTodoList,
   addTodo,
-  deleteTodo
+  deleteTodo,
+  deleteList,
 };

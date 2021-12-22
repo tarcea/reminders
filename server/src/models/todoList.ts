@@ -8,7 +8,7 @@ const todoListSchema: Schema = new Schema(
       required: true,
     },
     todos: [],
-    status: {
+    done: {
       type: Boolean,
       required: true,
     },

@@ -4,10 +4,10 @@ export interface ITodo extends Document {
   name: string;
   description: string;
   cost: number;
-  status: boolean;
+  done: boolean;
 }
 
 export interface ITodoList extends Document {
   name: string;
-  status: boolean;
+  done: boolean;
 }
