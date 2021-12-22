@@ -1,7 +1,7 @@
 import { Router } from "express";
 import {
-  getTodoLists,
-  addTodoList,
+  getLists,
+  addList,
   addTodo,
   deleteTodo,
   deleteList
@@ -9,9 +9,9 @@ import {
 
 const router: Router = Router();
 
-router.get("/lists", getTodoLists);
+router.get("/lists", getLists);
 
-router.post("/lists", addTodoList);
+router.post("/lists", addList);
 
 // router.delete("/lists/:id", deleteTodoList);
 

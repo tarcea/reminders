@@ -1,7 +1,7 @@
-import { ITodoList } from "./../types/todo";
+import { IList } from "../types/todo";
 import { model, Schema } from "mongoose";
 
-const todoListSchema: Schema = new Schema(
+const listSchema: Schema = new Schema(
   {
     name: {
       type: String,
@@ -16,4 +16,4 @@ const todoListSchema: Schema = new Schema(
   { timestamps: true }
 );
 
-export default model<ITodoList>("TodoList", todoListSchema);
+export default model<IList>("List", listSchema);

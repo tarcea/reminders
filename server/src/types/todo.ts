@@ -7,7 +7,7 @@ export interface ITodo extends Document {
   done: boolean;
 }
 
-export interface ITodoList extends Document {
+export interface IList extends Document {
   name: string;
   done: boolean;
 }
