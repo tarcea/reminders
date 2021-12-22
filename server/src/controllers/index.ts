@@ -1,6 +1,6 @@
 import { Response, Request } from 'express';
 import { ITodo, IList } from '../types/todo';
-import mongoose from 'mongoose';
+import mongoose, { ObjectId } from 'mongoose';
 import Todo from '../models/todo';
 import List from '../models/list';
 
@@ -8,6 +8,17 @@ const getLists = async (req: Request, res: Response): Promise<void> => {
   try {
     const lists: IList[] = await List.find();
     res.status(200).json({ lists });
+  } catch (error) {
+    throw error;
+  }
+};
+
+const getListById = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const findedList = await List.findById(id);
+    const list: IList = findedList!;
+    res.status(200).json({ list });
   } catch (error) {
     throw error;
   }
@@ -92,6 +103,7 @@ const deleteList = async (req: Request, res: Response): Promise<void> => {
 
 export {
   getLists,
+  getListById,
   addList,
   addTodo,
   deleteTodo,

@@ -11,7 +11,7 @@ const listSchema: Schema = new Schema(
     done: {
       type: Boolean,
       required: true,
-    },
+    }
   },
   { timestamps: true }
 );

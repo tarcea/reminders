@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getLists } from '../Api';
+import List from './List';
 
 const AllLists: React.FC = () => {
   const [lists, setLists] = useState<IList[]>([]);
+  const [currentId, setCurrentId] = useState<string>('');
 
-  const fetchLists = () => {
-    getLists()
-      .then(({ data: { lists } }: IList[] | any) =>
-        setLists(lists)
-      )
-      .catch((err: Error) => console.log(err));
+  const fetchLists = async () => {
+    try {
+      const fetchedLists = await getLists();
+      const lists: IList[] = fetchedLists.data.lists;
+      setLists(lists);
+    } catch (err) {
+      console.log(err)
+    }
   };
 
   useEffect(() => {
@@ -22,9 +26,17 @@ const AllLists: React.FC = () => {
       All Lists
       <ul>
         {lists.map(li => (
-          <li>{li.name}</li>
+          <li
+            key={li._id}
+            onClick={() => setCurrentId(li._id)}
+          >
+            {li.name}
+          </li>
         ))}
       </ul>
+      <div>
+        <List currentId={currentId} />
+      </div>
     </div>
   );
 };

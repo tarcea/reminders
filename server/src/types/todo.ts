@@ -1,4 +1,4 @@
-import { Document } from "mongoose";
+import { Document, ObjectId } from "mongoose";
 
 export interface ITodo extends Document {
   name: string;
@@ -10,4 +10,5 @@ export interface ITodo extends Document {
 export interface IList extends Document {
   name: string;
   done: boolean;
+  // _id: ObjectId;
 }

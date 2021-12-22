@@ -4,10 +4,21 @@ const apiUrl: string = 'http://localhost:3001';
 
 export const getLists = async (): Promise<AxiosResponse<ApiDataType>> => {
   try {
-    const todoLists: AxiosResponse<ApiDataType> = await axios.get(
+    const lists: AxiosResponse<ApiDataType> = await axios.get(
       `${apiUrl}/lists`
     );
-    return todoLists;
+    return lists;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getListById = async (id: string): Promise<AxiosResponse<ApiDataType>> => {
+  try {
+    const list: AxiosResponse<ApiDataType> = await axios.get(
+      `${apiUrl}/lists/${id}`
+    );
+    return list;
   } catch (error) {
     throw error;
   }

@@ -8,7 +8,11 @@ interface IList {
 }
 
 interface ListProps {
-  todoList: ITodoList;
+  list: IList;
+}
+
+interface TodoProps {
+  todo: ITodo;
 }
 
 interface ITodo {
@@ -25,8 +29,9 @@ type ApiDataType = {
   message: string;
   status: string;
   todos: ITodo[];
-  todoLists: IList[];
+  lists: IList[];
   todo?: ITodo;
-  todoList?: IList;
+  list?: IList;
 };
+
 

@@ -10,7 +10,7 @@ function App() {
     <Routes>
       <Route path='/' element={<Landing />} />
       <Route path='/lists' element={<AllLists />} />
-      <Route path='/:listName' element={<List />} />
+      {/* <Route path='/:listName' element={<List />} /> */}
     </Routes>
   );
 }
