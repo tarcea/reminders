@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { getLists, addList, deleteList } from '../Api';
 import AddList from './AddList';
@@ -32,7 +32,7 @@ const AllLists: React.FC = () => {
       })
       .catch(err => console.log(err));
   };
-  // TODO: solve refresh behaviour
+
   const handleDeleteList = (id: string) => {
     deleteList(id)
       .then(({ status, data }) => {
@@ -54,13 +54,16 @@ const AllLists: React.FC = () => {
       </div>
       All Lists
       <ul>
-        {lists.map(li => (
+        {lists?.map(li => (
           <li
             key={li._id}
             onClick={() => setCurrentId(li._id)}
           >
             {li.name}
-            <button onClick={() => handleDeleteList(li._id)}>delete</button>
+            <button onClick={(e: MouseEvent) => {
+              e.stopPropagation();
+              handleDeleteList(li._id)
+            }}>delete</button>
           </li>
         ))}
       </ul>

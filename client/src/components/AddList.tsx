@@ -3,6 +3,7 @@ import React, { useState, FC, FormEvent } from "react";
 const AddList: FC<{ saveList: Function }> = ({ saveList }) => {
   const initialState: Omit<IList, '_id' | 'done'> = { name: '' };
   const [formData, setFormData] = useState(initialState);
+
   const handleChange = (e: FormEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
