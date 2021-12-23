@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 
-const apiUrl: string = 'http://localhost:3001';
+const apiUrl: string = process.env.REACT_APP_API_URL!;
 
 export const getLists = async (): Promise<AxiosResponse<ApiDataType>> => {
   try {
