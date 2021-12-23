@@ -21,7 +21,7 @@ const List: FC<{ currentId: string }> = ({ currentId }) => {
 
   return (
     <div>
-      {list?.todos?.length}
+      {list?.todos?.length} -- {list?.name}
     </div>
   );
 };
