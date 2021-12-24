@@ -56,3 +56,25 @@ export const deleteList = async (
     throw error;
   }
 };
+
+export const addTodo = async (
+  formData: ITodo,
+  listId: string
+): Promise<AxiosResponse<ApiDataType>> => {
+  try {
+    const todo: Omit<ITodo, "_id"> = {
+      name: formData.name,
+      description: formData.description,
+      done: false,
+      cost: formData.cost,
+    };
+
+    const saveTodo: AxiosResponse<ApiDataType> = await axios.post(
+      `${apiUrl}/lists/${listId}/todos`,
+      todo
+    );
+    return saveTodo;
+  } catch (error) {
+    throw error;
+  }
+};

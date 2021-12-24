@@ -1,12 +1,13 @@
 import React, { useEffect, useState, MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
-import { getLists, addList, deleteList } from '../Api';
+import { getLists, addList, deleteList, addTodo } from '../Api';
 import AddList from './AddList';
 import List from './List';
 
 const AllLists: React.FC = () => {
   const [lists, setLists] = useState<IList[]>([]);
   const [currentId, setCurrentId] = useState<string>('');
+
   const fetchLists = async () => {
     try {
       const fetchedLists = await getLists();
@@ -19,16 +20,17 @@ const AllLists: React.FC = () => {
 
   useEffect(() => {
     fetchLists();
+    console.log('martor')
   }, []);
 
-  const saveList = (formData: IList) => {
+  const handleAddList = (formData: IList) => {
     addList(formData)
       .then(({ status, data }) => {
         if (status !== 201) {
           throw new Error("Error! list not saved");
         }
         setLists(data.lists);
-        // fetchLists();
+        fetchLists();
       })
       .catch(err => console.log(err));
   };
@@ -45,14 +47,17 @@ const AllLists: React.FC = () => {
       .catch(err => console.log(err));
   };
 
+  const handleAddTodo = (id: string) => {
+    console.log(id);
+  };
 
   return (
     <div>
-      <AddList saveList={saveList} />
+      <AddList saveList={handleAddList} />
       <div>
         <List currentId={currentId} />
       </div>
-      All Lists
+      All Lists {lists?.length}
       <ul>
         {lists?.map(li => (
           <li
@@ -60,10 +65,20 @@ const AllLists: React.FC = () => {
             onClick={() => setCurrentId(li._id)}
           >
             {li.name}
-            <button onClick={(e: MouseEvent) => {
-              e.stopPropagation();
-              handleDeleteList(li._id)
-            }}>delete</button>
+            <button
+              onClick={(e: MouseEvent) => {
+                e.stopPropagation();
+                handleDeleteList(li._id);
+              }}>
+              delete
+            </button>
+            <button
+              onClick={(e: MouseEvent) => {
+                e.stopPropagation();
+                handleAddTodo(li._id);
+              }}>
+              add todos
+            </button>
           </li>
         ))}
       </ul>

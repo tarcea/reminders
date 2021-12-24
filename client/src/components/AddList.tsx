@@ -1,8 +1,10 @@
 import React, { useState, FC, FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
 
 const AddList: FC<{ saveList: Function }> = ({ saveList }) => {
   const initialState: Omit<IList, '_id' | 'done'> = { name: '' };
   const [formData, setFormData] = useState(initialState);
+  const navigate = useNavigate();
 
   const handleChange = (e: FormEvent<HTMLInputElement>) => {
     setFormData({
@@ -15,7 +17,7 @@ const AddList: FC<{ saveList: Function }> = ({ saveList }) => {
     // TODO: fix e.preventDefault ...
     e.preventDefault();
     await saveList(formData);
-    // setFormData(initialState);
+    setFormData(initialState);
   };
 
   return (
