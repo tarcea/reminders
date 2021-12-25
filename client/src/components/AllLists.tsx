@@ -4,10 +4,9 @@ import { getLists, addList, deleteList, addTodo } from '../Api';
 import AddList from './AddList';
 import List from './List';
 
-const AllLists: React.FC = () => {
+const AllLists: React.FC<{ setCurrentId: Function, currentId: string }> = ({ setCurrentId, currentId }) => {
   const [lists, setLists] = useState<IList[]>([]);
-  const [currentId, setCurrentId] = useState<string>('');
-
+  // const [currentId, setCurrentId] = useState<string>('');
   const fetchLists = async () => {
     try {
       const fetchedLists = await getLists();
@@ -20,7 +19,6 @@ const AllLists: React.FC = () => {
 
   useEffect(() => {
     fetchLists();
-    console.log('martor')
   }, []);
 
   const handleAddList = (formData: IList) => {
@@ -64,7 +62,7 @@ const AllLists: React.FC = () => {
             key={li._id}
             onClick={() => setCurrentId(li._id)}
           >
-            {li.name}
+            <Link to={`/lists/${li._id}`}>{li.name}</Link>
             <button
               onClick={(e: MouseEvent) => {
                 e.stopPropagation();

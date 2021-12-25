@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import { Server, Socket } from 'socket.io';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import list from './models/list';
 
 dotenv.config();
 
@@ -26,11 +27,19 @@ app.use(cors());
 app.use(express.json());
 app.use(todoRoutes);
 
-io.on("connection", (socket: Socket) => {
-  console.log("New client connected" + socket.id);
-  // TODO: code for multiple sockets connected
-  socket.on("disconnect", () => {
-    console.log("user disconnected");
+io.on('connection', (socket: Socket) => {
+  console.log(`New client connected ${socket.id}`);
+  socket.on('fetch_data', id => {
+    list.findById(id)
+      .then(docs => {
+        socket.emit('get_data', docs);
+        socket.broadcast.emit('get_data', docs);
+        console.log(docs)
+      })
+      .catch(err => console.log(err));
+  });
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
   });
 });
 
