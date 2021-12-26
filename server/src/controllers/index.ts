@@ -31,7 +31,6 @@ const addList = async (req: Request, res: Response): Promise<void> => {
       name: body.name,
       done: body.done,
     });
-
     const newList: IList = await list.save();
 
     res.status(201).json({

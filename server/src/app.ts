@@ -17,8 +17,8 @@ const server = http.createServer(app);
 const io = new Server(server,
   {
     cors: {
-      // origin: ['http://localhost:3000'], // dev
-      origin: ['https://mycoolreminders.netlify.app'],// prod
+      origin: ['http://localhost:3000'], // dev
+      // origin: ['https://mycoolreminders.netlify.app'], // prod
     }
   }
 );
@@ -35,16 +35,16 @@ app.use(express.json());
 app.use(todoRoutes);
 
 io.on('connection', (socket: Socket) => {
-  console.log(`New client connected ${socket.id}`);
+  // console.log(`New client connected ${socket.id}`);
   socket.on('fetch_data', id => {
     console.log('crid', id)
-    // list.findById(id.toString())
-    //   .then(docs => {
-    //     socket.emit('get_data', docs);
-    //     socket.broadcast.emit('get_data', docs);
-    //     console.log(docs)
-    //   })
-    //   .catch(err => console.log(err));
+    list.findById(id)
+      .then(docs => {
+        // socket.emit('get_data', docs);
+        // socket.broadcast.emit('get_data', docs);
+        console.log(docs)
+      })
+      .catch(err => console.log(err));
   });
 
   socket.on('disconnect', () => {

@@ -1,10 +1,10 @@
-import React, { useEffect, useState, MouseEvent } from 'react';
+import React, { useEffect, useState, MouseEvent, FC } from 'react';
 import { Link } from 'react-router-dom';
 import { getLists, addList, deleteList, addTodo } from '../Api';
 import AddList from './AddList';
 import List from './List';
 
-const AllLists: React.FC<{ setCurrentId: Function, currentId: string }> = ({ setCurrentId, currentId }) => {
+const AllLists: FC<{ setCurrentId: Function, currentId: string }> = ({ setCurrentId, currentId }) => {
   const [lists, setLists] = useState<IList[]>([]);
   // const [currentId, setCurrentId] = useState<string>('');
   const fetchLists = async () => {
@@ -52,9 +52,6 @@ const AllLists: React.FC<{ setCurrentId: Function, currentId: string }> = ({ set
   return (
     <div>
       <AddList saveList={handleAddList} />
-      <div>
-        <List currentId={currentId} />
-      </div>
       All Lists {lists?.length}
       <ul>
         {lists?.map(li => (

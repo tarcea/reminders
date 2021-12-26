@@ -4,18 +4,27 @@ import './App.css';
 import AllLists from './components/AllLists';
 import Landing from './components/Landing';
 import List from './components/List';
-import Sock from './components/Socket_test';
+import About from './components/About';
 
 const App = () => {
   const [currentId, setCurrentId] = useState<string>('');
 
   return (
-    <Routes>
-      <Route path='/' element={<Landing />} />
-      <Route path='/lists' element={<AllLists setCurrentId={setCurrentId} currentId={currentId} />} />
-      <Route path='/lists/:listId' element={<List currentId={currentId} />} />
-      <Route path='/sock' element={<Sock currentId={currentId} />} />
-    </Routes>
+    <div>
+      <nav>
+        <ul>
+          <li><Link to={'/'}>home</Link></li>
+          <li><Link to={'/lists'}>lists</Link></li>
+          <li><Link to={'/about'}>about</Link></li>
+        </ul>
+      </nav>
+      <Routes>
+        <Route path='/' element={<Landing />} />
+        <Route path='/lists' element={<AllLists setCurrentId={setCurrentId} currentId={currentId} />} />
+        <Route path='/lists/:listId' element={<List currentId={currentId} />} />
+        <Route path='/about' element={<About />} />
+      </Routes>
+    </div>
   );
 }
 
