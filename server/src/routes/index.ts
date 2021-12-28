@@ -4,6 +4,7 @@ import {
   getListById,
   addList,
   addTodo,
+  getTodos,
   deleteTodo,
   deleteList
 } from "../controllers";
@@ -17,7 +18,7 @@ router.post("/lists", addList);
 
 // router.delete("/lists/:id", deleteTodoList);
 
-// router.get("/lists/:id/todos", getTodos);
+router.get("/lists/:id/todos", getTodos);
 
 router.post("/lists/:id/todos", addTodo);
 // router.post("/lists/:listId/todos/:todoId/subtasks", addSubtask);

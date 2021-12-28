@@ -1,13 +1,13 @@
 import React, { FC, useEffect, useState, FormEvent } from 'react';
+import './styles/list.css';
 import { Link, useParams } from 'react-router-dom';
-import { io } from 'socket.io-client';
-import { addTodo, getListById } from '../Api';
+import { addTodo, getListById, getTodosByListId } from '../Api';
 
 const List: FC<{ currentId: string }> = ({ currentId }) => {
   const initialState: Omit<ITodo, '_id' | 'done'> = { name: '', description: '', cost: 0 };
   const [formData, setFormData] = useState(initialState);
-  const [message, setMessage] = useState<String>('nothing to show');
   const [list, setList] = useState<IList>();
+  const [todos, setTodos] = useState<ITodo[]>([]);
   const { listId } = useParams();
 
   const fetchListById = async (id: string) => {
@@ -20,27 +20,26 @@ const List: FC<{ currentId: string }> = ({ currentId }) => {
     }
   };
 
-  useEffect(() => {
-    // const socket = io('http://localhost:3001'); // DEV
-    const socket = io(process.env.REACT_APP_API_URL!); // PROD
-    socket.on('connect', () => {
-      setMessage(`You connected with id: ${socket.id}`)
-      socket.emit('fetch_data', currentId)
-    });
-    socket.on('disconnect', () => {
-      console.log('disconnected')
-    });
-  }, [currentId]);
+  const fetchTodos = async (id: string) => {
+    try {
+      const fetchedTodos = await getTodosByListId(id);
+      setTodos(fetchedTodos.data.todos);
+    } catch (err) {
+      console.log(err)
+    }
+  };
 
   useEffect(() => {
-    fetchListById(currentId);
-  }, [currentId]);
-
-  useEffect(() => {
+    if (currentId) {
+      fetchListById(currentId);
+      fetchTodos(currentId);
+    }
     if (listId) {
       fetchListById(listId);
+      fetchTodos(listId);
     }
-  }, [listId]);
+    console.log('martor')
+  }, [listId, currentId, formData]);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -57,8 +56,6 @@ const List: FC<{ currentId: string }> = ({ currentId }) => {
 
   return (
     <div>
-      <p>{list?.todos?.length} -- {list?.name}</p>
-      <p>{message}</p>
       <form onSubmit={handleSubmit}>
         <label>name</label>
         <input
@@ -82,6 +79,18 @@ const List: FC<{ currentId: string }> = ({ currentId }) => {
           type="submit"
           value="add todo" />
       </form>
+      <p>{todos?.length} -- {list?.name}</p>
+      <p>Todos:</p>
+      <div className="todos__container">
+        {todos && todos.map(todo => (
+          <div key={todo._id} className="todo-item__container">
+            <h2>{todo.name}</h2>
+            <p>{todo.description}</p>
+            <p>{todo.cost}</p>
+          </div>
+        ))}
+      </div>
+
     </div>
   );
 };

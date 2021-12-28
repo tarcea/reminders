@@ -1,0 +1,12 @@
+.todos__container {
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.todo-item__container {
+  background-color: rgb(243, 224, 228);
+  padding: 1em;
+  box-shadow: darkblue 1px;
+}

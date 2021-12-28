@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 
-const apiUrl: string = process.env.REACT_APP_API_URL!;
+// const apiUrl: string = process.env.REACT_APP_API_URL!; // PROD
+const apiUrl: string = 'http://localhost:3001'; //DEV
 
 export const getLists = async (): Promise<AxiosResponse<ApiDataType>> => {
   try {
@@ -78,3 +79,13 @@ export const addTodo = async (
     throw error;
   }
 };
+
+export const getTodosByListId = async (listId: string): Promise<AxiosResponse<ApiDataType>> => {
+  try {
+    const todos: AxiosResponse<ApiDataType> = await axios.get(
+      `${apiUrl}/lists/${listId}/todos`);
+    return todos;
+  } catch (error) {
+    throw error;
+  }
+}

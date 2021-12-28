@@ -64,6 +64,23 @@ const addTodo = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
+const getTodos = async (req: Request, res: Response): Promise<void> => {
+  let todos: ITodo[];
+  try {
+    const { id } = req.params;
+    const findedList = await List.findById(id);
+    const list: IList = findedList!
+    if (list) {
+      todos = list.todos!;
+      res.status(200).json({ todos });
+    } else {
+      res.status(200).json({ message: 'no todos here' });
+    }
+  } catch (error) {
+    throw error;
+  }
+};
+
 const deleteTodo = async (req: Request, res: Response): Promise<void> => {
   try {
     // const listId = new mongoose.Types.ObjectId(req.params.listId);
@@ -105,6 +122,7 @@ export {
   getListById,
   addList,
   addTodo,
+  getTodos,
   deleteTodo,
   deleteList,
 };
