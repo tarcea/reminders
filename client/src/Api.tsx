@@ -88,4 +88,18 @@ export const getTodosByListId = async (listId: string): Promise<AxiosResponse<Ap
   } catch (error) {
     throw error;
   }
-}
+};
+
+export const deleteTodo = async (
+  listId: string,
+  todoId: string
+): Promise<AxiosResponse<ApiDataType>> => {
+  try {
+    const deletedTodo: AxiosResponse<ApiDataType> = await axios.delete(
+      `${apiUrl}/lists/${listId}/todos/${todoId}`
+    );
+    return deletedTodo;
+  } catch (error) {
+    throw error;
+  }
+};
