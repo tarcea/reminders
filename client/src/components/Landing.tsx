@@ -5,7 +5,7 @@ const Landing = () => {
   return (
     <div>
       <h4>Welcome to your reminder app</h4>
-      <p>enjoy it</p>
+      <p>this is what you need</p>
       <button>let's get started</button>
     </div>
   );

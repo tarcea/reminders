@@ -1,15 +1,13 @@
-import React, { FC, useEffect, useState, FormEvent, MouseEvent } from 'react';
+import React, { FC, useEffect, useState, FormEvent } from 'react';
 import './styles/list.css';
 import { Link, useParams } from 'react-router-dom';
-import { addTodo, getListById, getTodosByListId, deleteTodo } from '../Api';
-import Message from './Message';
+import { addTodo, getListById, getTodosByListId } from '../Api';
 
 const List: FC<{ currentId: string }> = ({ currentId }) => {
   const initialState: Omit<ITodo, '_id' | 'done'> = { name: '', description: '', cost: 0 };
   const [formData, setFormData] = useState(initialState);
   const [list, setList] = useState<IList>();
   const [todos, setTodos] = useState<ITodo[]>([]);
-  const [message, setMessage] = useState<String>('');
   const { listId } = useParams();
 
   const fetchListById = async (id: string) => {
@@ -47,7 +45,6 @@ const List: FC<{ currentId: string }> = ({ currentId }) => {
     e.preventDefault();
     await addTodo({ ...formData, _id: '', done: false }, listId!)
     setFormData(initialState);
-    setMessage('new todo added')
   };
 
   const handleChange = (e: FormEvent<HTMLInputElement>) => {
@@ -57,38 +54,25 @@ const List: FC<{ currentId: string }> = ({ currentId }) => {
     });
   };
 
-  const handleDeleteTodo = async (todoId: string) => {
-    try {
-      await deleteTodo(listId!, todoId);
-      setMessage(`todo deleted`);
-      fetchTodos(listId!);
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
   return (
     <div>
-      {message && <Message message={message} setMessage={setMessage} />}
       <form onSubmit={handleSubmit}>
-        <label style={{ display: "none" }}>name</label>
+        <label>name</label>
         <input
           type="text"
-          placeholder="add a new task"
           id="name"
           value={formData.name}
           onChange={handleChange} />
-        {/* <label>description</label>
+        <label>description</label>
         <input
           type="text"
           id="description"
           value={formData.description}
-          onChange={handleChange} /> */}
-        <label style={{ display: "none" }}>price</label>
+          onChange={handleChange} />
+        <label>price</label>
         <input
           type="number"
           id="cost"
-          placeholder="add a price for your task"
           value={formData.cost}
           onChange={handleChange} />
         <input
@@ -103,12 +87,6 @@ const List: FC<{ currentId: string }> = ({ currentId }) => {
             <h2>{todo.name}</h2>
             <p>{todo.description}</p>
             <p>{todo.cost}</p>
-            <div
-              className="todo-item--delete"
-              onClick={() => handleDeleteTodo(todo._id)}
-            >
-              X
-            </div>
           </div>
         ))}
       </div>
