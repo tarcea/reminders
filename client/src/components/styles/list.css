@@ -1,3 +1,16 @@
+/* get rid of arrows in number field */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
 .todos__container {
   padding: 1em;
   display: flex;
@@ -6,7 +19,28 @@
 }
 
 .todo-item__container {
-  background-color: rgb(243, 224, 228);
-  padding: 1em;
-  box-shadow: darkblue 1px;
+  position: relative;
+  background-color: #ffffff;
+  /* border-color: #898d94; */
+  border: 1px solid #898d94;
+  border-radius: 8px;
+  /* box-shadow: 1px 5px 6px 1px #999a9b; */
+  transition: 0.3s;
+  width: 100%;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  gap: 2em;
+}
+
+.todo-item__container:hover {
+  box-shadow: 0 8px 16px 0 #898d94;
+}
+
+.todo-item--delete {
+  position: absolute;
+  top: 0.5em;
+  right: 1em;
 }

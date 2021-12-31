@@ -1,0 +1,25 @@
+.message__container {
+  width: 90vw;
+  background: rgba(184, 241, 227, 0.4);
+  /* padding: 0.1em; */
+  text-align: center;
+  color: #282846;
+  font-weight: 100;
+  font-size: 1.5em;
+  margin: 0 auto;
+  border-radius: 5px;
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  position: fixed;
+  top: 1em;
+}
+
+@media screen and (min-width: 768px) {
+  .message__container {
+    width: 30vw;
+  }
+}
