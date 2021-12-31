@@ -10,6 +10,7 @@ const List: FC<{ currentId: string }> = ({ currentId }) => {
   const [list, setList] = useState<IList>();
   const [todos, setTodos] = useState<ITodo[]>([]);
   const [message, setMessage] = useState<String>('');
+  const [total, setTotal] = useState<number>(0);
   const { listId } = useParams();
 
   const fetchListById = async (id: string) => {
@@ -26,6 +27,17 @@ const List: FC<{ currentId: string }> = ({ currentId }) => {
     try {
       const fetchedTodos = await getTodosByListId(id);
       setTodos(fetchedTodos.data.todos);
+      const currentTotal = fetchedTodos
+        ? fetchedTodos.data.todos
+          .map(item => (item.cost ? item.cost : 0))
+          .reduce(
+            (prev, next) =>
+              Number(prev !== undefined ? prev : 0) +
+              Number(next !== undefined ? next : 0),
+            0
+          )
+        : 0;
+      setTotal(currentTotal)
     } catch (err) {
       console.log(err)
     }
@@ -65,7 +77,7 @@ const List: FC<{ currentId: string }> = ({ currentId }) => {
     } catch (err) {
       console.log(err);
     }
-  }
+  };
 
   return (
     <div>
@@ -95,25 +107,32 @@ const List: FC<{ currentId: string }> = ({ currentId }) => {
           type="submit"
           value="add todo" />
       </form>
-      <p>{todos?.length} -- {list?.name}</p>
-      <p>Todos:</p>
+      <h3>{list?.name}</h3>
+      {todos?.length !== 0 && <p>Todos ({todos?.length}):</p>}
+      {total !== 0 && (<p>Total cost: {total}</p>)}
       <div className="todos__container">
         {todos && todos.map(todo => (
-          <div key={todo._id} className="todo-item__container">
+          <div
+            key={todo._id}
+            className="todo-item__container"
+            onClick={() => console.log(todo._id)}
+          >
             <h2>{todo.name}</h2>
             <p>{todo.description}</p>
             <p>{todo.cost}</p>
             <div
               className="todo-item--delete"
-              onClick={() => handleDeleteTodo(todo._id)}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleDeleteTodo(todo._id);
+              }}
             >
               X
             </div>
           </div>
         ))}
       </div>
-
-    </div>
+    </div >
   );
 };
 
