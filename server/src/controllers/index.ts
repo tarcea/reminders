@@ -42,6 +42,22 @@ const addList = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
+const deleteList = async (req: Request, res: Response): Promise<void> => {
+  try {
+    // TODO: allow list deletion just if the todos array is empty or all todos are done
+    const { listId } = req.params;
+
+    await List.findOneAndDelete(
+      { _id: listId }
+    ).exec();
+    res.status(200).json({
+      message: 'list deleted'
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
 const addTodo = async (req: Request, res: Response): Promise<void> => {
   try {
     const listId = req.params.id;
@@ -49,7 +65,6 @@ const addTodo = async (req: Request, res: Response): Promise<void> => {
       ITodo,
       'name' | 'description' | 'cost' | 'done'
     >;
-    console.log(body)
     const todo: ITodo = new Todo({
       name: body.name,
       description: body.description,
@@ -57,7 +72,6 @@ const addTodo = async (req: Request, res: Response): Promise<void> => {
       done: body.done,
     });
     await List.updateOne({ _id: listId }, { $push: { todos: todo } });
-
     res.status(201).json({ message: 'new todo added', todo });
   } catch (error) {
     throw error;
@@ -76,6 +90,33 @@ const getTodos = async (req: Request, res: Response): Promise<void> => {
     } else {
       res.status(200).json({ message: 'no todos here' });
     }
+  } catch (error) {
+    throw error;
+  }
+};
+
+const toggleTodoDone = async (req: Request, res: Response): Promise<void> => {
+  try {
+    let doneFlag: boolean = false;
+    let todos: ITodo[];
+    const todoId = new mongoose.Types.ObjectId(req.params.todoId);
+    const { listId } = req.params;
+
+    const findedList = await List.findById(listId);
+    const list: IList = findedList!
+    if (list) {
+      todos = list.todos!;
+      const toggledTodo: ITodo = todos.find((t: ITodo) => t._id?.toString() === req.params.todoId)!;
+      doneFlag = toggledTodo.done!;
+    };
+
+    await List.findOneAndUpdate(
+      { _id: listId, "todos._id": todoId },
+      { $set: { "todos.$.done": !doneFlag } }
+    );
+    res.status(200).json({
+      message: "Todo updated",
+    });
   } catch (error) {
     throw error;
   }
@@ -101,28 +142,13 @@ const deleteTodo = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-const deleteList = async (req: Request, res: Response): Promise<void> => {
-  try {
-    // TODO: allow list deletion just if the todos array is empty or all todos are done
-    const { listId } = req.params;
-
-    await List.findOneAndDelete(
-      { _id: listId }
-    ).exec();
-    res.status(200).json({
-      message: 'list deleted'
-    });
-  } catch (error) {
-    throw error;
-  }
-};
-
 export {
   getLists,
   getListById,
   addList,
   addTodo,
   getTodos,
+  toggleTodoDone,
   deleteTodo,
   deleteList,
 };

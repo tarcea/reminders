@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState, FormEvent, MouseEvent } from 'react';
 import './styles/list.css';
 import { Link, useParams } from 'react-router-dom';
-import { addTodo, getListById, getTodosByListId, deleteTodo } from '../Api';
+import { addTodo, getListById, getTodosByListId, deleteTodo, toggleTodoDone } from '../Api';
 import Message from './Message';
 
 const List: FC<{ currentId: string }> = ({ currentId }) => {
@@ -52,7 +52,6 @@ const List: FC<{ currentId: string }> = ({ currentId }) => {
       fetchListById(listId);
       fetchTodos(listId);
     }
-    console.log('martor')
   }, [listId, currentId, formData]);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -73,6 +72,16 @@ const List: FC<{ currentId: string }> = ({ currentId }) => {
     try {
       await deleteTodo(listId!, todoId);
       setMessage(`todo deleted`);
+      fetchTodos(listId!);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleToggleTodoDone = async (todoId: string) => {
+    try {
+      await toggleTodoDone(listId!, todoId);
+      // setMessage(`toggled todo`);
       fetchTodos(listId!);
     } catch (err) {
       console.log(err);
@@ -114,8 +123,8 @@ const List: FC<{ currentId: string }> = ({ currentId }) => {
         {todos && todos.map(todo => (
           <div
             key={todo._id}
-            className="todo-item__container"
-            onClick={() => console.log(todo._id)}
+            className={todo.done ? "todo-item__container todo-item--done" : "todo-item__container"}
+            onClick={() => handleToggleTodoDone(todo._id)}
           >
             <h2>{todo.name}</h2>
             <p>{todo.description}</p>

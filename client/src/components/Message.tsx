@@ -7,7 +7,6 @@ const Message: FC<{ message: String, setMessage: Function }> = ({ message, setMe
     const delay = setTimeout(() => {
       setMessage('')
     }, 1500);
-    console.log('message martor')
     return () => {
       clearTimeout(delay)
     }

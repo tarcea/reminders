@@ -90,6 +90,19 @@ export const getTodosByListId = async (listId: string): Promise<AxiosResponse<Ap
   }
 };
 
+export const toggleTodoDone = async (
+  listId: string,
+  todoId: string
+) => {
+  try {
+    await axios.put(
+      `${apiUrl}/lists/${listId}/todos/${todoId}`
+    );
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const deleteTodo = async (
   listId: string,
   todoId: string

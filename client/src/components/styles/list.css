@@ -44,3 +44,7 @@ input[type=number] {
   top: 0.5em;
   right: 1em;
 }
+
+.todo-item--done {
+  text-decoration: line-through;
+}
