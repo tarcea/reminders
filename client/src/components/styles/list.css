@@ -15,14 +15,14 @@ input[type=number] {
   padding: 1em;
   display: flex;
   flex-direction: column;
-  gap: 1em;
+  /* gap: 1em; */
 }
 
 .todo-item__container {
   background: white;
-  border: 1px solid rgba(40, 40, 70, 0.5);
+  border: 1px solid rgba(40, 40, 70, 0.2);
   border-radius: 10px;
-  padding: 2em 2em 2em 3em;
+  padding: 1em 1em 1em 1em;
   margin: 0.5em 2em;
   position: relative;
   color: #282846;
@@ -31,6 +31,13 @@ input[type=number] {
 .todo-item__container:hover {
   box-shadow: 1px 6px 6px 1px #898d94;
   cursor: pointer
+}
+
+.todo-item__footer {
+  margin-top: 1em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 /* .todo-item--delete {
@@ -50,7 +57,7 @@ input[type=number] {
   color: #282846;
   height: 1.5em;
   width: 3.5em;
-  border: 1px solid rgba(40, 40, 70, 0.9);
+  border: 1px solid rgba(40, 40, 70, 0.3);
   margin-left: 1em;
   border-radius: 5px;
 }
@@ -63,7 +70,7 @@ input[type=number] {
 
 .todo-item--actions {
   display: flex;
-  justify-content: right;
+  align-content: flex-end;
 }
 
 .todo-item--delete:hover {
@@ -73,14 +80,14 @@ input[type=number] {
 }
 
 .todo-item--done {
-  text-decoration: line-through;
-  font-style: italic;
-  background: rgb(243, 196, 108, 0.5);
-  border-radius: 20px;
-  padding: 2em;
-  margin: 1em 2em;
+  background: rgba(40, 40, 70, 0.1);
   order: 10;
   color: grey;
+}
+
+.todo-item--text-for-done {
+  text-decoration: line-through;
+  font-style: italic;
 }
 
 .todo-list__pill {

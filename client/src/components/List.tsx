@@ -134,30 +134,34 @@ const List: FC<{ currentId: string }> = ({ currentId }) => {
             className={todo.done ? "todo-item--done todo-item__container" : "todo-item__container"}
             onClick={() => handleToggleTodoDone(todo._id)}
           >
-            <h2>{todo.name}</h2>
-            <p>{todo.description}</p>
-            {todo.cost! > 0 && <p>cost: <b>{todo.cost}</b>€</p>}
-            <div className="todo-item--actions">
-              <button
-                type="button"
-                className="todo-item__button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleDeleteTodo(todo._id);
-                }}
-              >
-                delete
-              </button>
-              <button
-                type="button"
-                className="todo-item__button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleClickOnEditButton(todo._id);
-                }}
-              >
-                edit
-              </button>
+            <div className={todo.done ? "todo-item--text-for-done" : ""}>
+              <h3>{todo.name}</h3>
+              <p>{todo.description}</p>
+            </div>
+            <div className="todo-item__footer">
+              <div>{todo.cost! > 0 && <p><b>{todo.cost}</b>€</p>}</div>
+              <div className="todo-item--actions">
+                <button
+                  type="button"
+                  className="todo-item__button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDeleteTodo(todo._id);
+                  }}
+                >
+                  delete
+                </button>
+                <button
+                  type="button"
+                  className="todo-item__button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleClickOnEditButton(todo._id);
+                  }}
+                >
+                  edit
+                </button>
+              </div>
             </div>
           </div>
         ))}

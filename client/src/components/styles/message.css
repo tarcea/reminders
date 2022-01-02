@@ -1,9 +1,9 @@
 .message__container {
   width: 90vw;
-  background: rgb(245, 130, 130, 0.5);
+  background: rgba(40, 40, 70, 0.8);
   /* padding: 0.1em; */
   text-align: center;
-  color: #282846;
+  color: white;
   font-weight: 100;
   font-size: 1.5em;
   margin: 0 auto;
