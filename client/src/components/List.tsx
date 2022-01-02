@@ -13,6 +13,8 @@ const List: FC<{ currentId: string }> = ({ currentId }) => {
   const [total, setTotal] = useState<number>(0);
   const { listId } = useParams();
 
+  const doneTodos: ITodo[] = (todos.length && (todos.filter(todo => todo.done))) || [];
+
   const fetchListById = async (id: string) => {
     try {
       const fetchedList = await getListById(id);
@@ -26,7 +28,7 @@ const List: FC<{ currentId: string }> = ({ currentId }) => {
   const fetchTodos = async (id: string) => {
     try {
       const fetchedTodos = await getTodosByListId(id);
-      setTodos(fetchedTodos.data.todos);
+      setTodos(fetchedTodos.data.todos.reverse());
       const currentTotal = fetchedTodos
         ? fetchedTodos.data.todos
           .map(item => (item.cost ? item.cost : 0))
@@ -88,6 +90,10 @@ const List: FC<{ currentId: string }> = ({ currentId }) => {
     }
   };
 
+  const handleClickOnEditButton = (id: string) => {
+    console.log(id)
+  };
+
   return (
     <div>
       {message && <Message message={message} setMessage={setMessage} />}
@@ -95,22 +101,24 @@ const List: FC<{ currentId: string }> = ({ currentId }) => {
         <label style={{ display: "none" }}>name</label>
         <input
           type="text"
-          placeholder="add a new task"
+          required
+          placeholder="add a new task *"
           id="name"
           value={formData.name}
           onChange={handleChange} />
-        {/* <label>description</label>
-        <input
-          type="text"
-          id="description"
-          value={formData.description}
-          onChange={handleChange} /> */}
         <label style={{ display: "none" }}>price</label>
         <input
           type="number"
           id="cost"
           placeholder="add a price for your task"
           value={formData.cost}
+          onChange={handleChange} />
+        <label style={{ display: "none" }}>description</label>
+        <input
+          type="text"
+          placeholder="description"
+          id="description"
+          value={formData.description}
           onChange={handleChange} />
         <input
           type="submit"
@@ -123,23 +131,41 @@ const List: FC<{ currentId: string }> = ({ currentId }) => {
         {todos && todos.map(todo => (
           <div
             key={todo._id}
-            className={todo.done ? "todo-item__container todo-item--done" : "todo-item__container"}
+            className={todo.done ? "todo-item--done todo-item__container" : "todo-item__container"}
             onClick={() => handleToggleTodoDone(todo._id)}
           >
             <h2>{todo.name}</h2>
             <p>{todo.description}</p>
-            <p>{todo.cost}</p>
-            <div
-              className="todo-item--delete"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleDeleteTodo(todo._id);
-              }}
-            >
-              X
+            {todo.cost! > 0 && <p>cost: <b>{todo.cost}</b>€</p>}
+            <div className="todo-item--actions">
+              <button
+                type="button"
+                className="todo-item__button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleDeleteTodo(todo._id);
+                }}
+              >
+                delete
+              </button>
+              <button
+                type="button"
+                className="todo-item__button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleClickOnEditButton(todo._id);
+                }}
+              >
+                edit
+              </button>
             </div>
           </div>
         ))}
+      </div>
+      <div className="todo-list__pill">
+        {todos.length}
+        /
+        {doneTodos.length}
       </div>
     </div >
   );

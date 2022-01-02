@@ -19,32 +19,99 @@ input[type=number] {
 }
 
 .todo-item__container {
+  background: white;
+  border: 1px solid rgba(40, 40, 70, 0.5);
+  border-radius: 10px;
+  padding: 2em 2em 2em 3em;
+  margin: 0.5em 2em;
   position: relative;
-  background-color: #ffffff;
-  /* border-color: #898d94; */
-  border: 1px solid #898d94;
-  border-radius: 8px;
-  /* box-shadow: 1px 5px 6px 1px #999a9b; */
-  transition: 0.3s;
-  width: 100%;
-  position: relative;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  display: flex;
-  gap: 2em;
+  color: #282846;
 }
 
 .todo-item__container:hover {
-  box-shadow: 0 8px 16px 0 #898d94;
+  box-shadow: 1px 6px 6px 1px #898d94;
+  cursor: pointer
 }
 
-.todo-item--delete {
+/* .todo-item--delete {
   position: absolute;
-  top: 0.5em;
-  right: 1em;
+  top: -8%;
+  left: -1%;
+  border-radius: 50%;
+  background:#282846;
+  color: white;
+  height: 3em;
+  width: 3em;
+  border: none;
+} */
+
+.todo-item__button {
+  background:white;
+  color: #282846;
+  height: 1.5em;
+  width: 3.5em;
+  border: 1px solid rgba(40, 40, 70, 0.9);
+  margin-left: 1em;
+  border-radius: 5px;
+}
+
+.todo-item__button:hover {
+  background:#282846;
+  color: white;
+  cursor: pointer;
+}
+
+.todo-item--actions {
+  display: flex;
+  justify-content: right;
+}
+
+.todo-item--delete:hover {
+  cursor: pointer;
+  color: #282846;
+  background: rgb(245, 130, 130, 0.5);
 }
 
 .todo-item--done {
   text-decoration: line-through;
+  font-style: italic;
+  background: rgb(243, 196, 108, 0.5);
+  border-radius: 20px;
+  padding: 2em;
+  margin: 1em 2em;
+  order: 10;
+  color: grey;
 }
+
+.todo-list__pill {
+  padding: 1.5em;
+  position: fixed;
+  bottom: 2em;
+  right: 10vw;
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  background: rgba(40, 40, 70, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+/* .todo-item__button--edit {
+  position: absolute;
+  top: -8%;
+  right: -1%;
+  border-radius: 50%;
+  background:#282846;
+  color: white;
+  height: 3em;
+  width: 3em;
+  border: none;
+} */
+
+/* .todo-item__button--edit:hover {
+  cursor: pointer;
+  color: #282846;
+  background: rgb(245, 130, 130, 0.5);
+} */
