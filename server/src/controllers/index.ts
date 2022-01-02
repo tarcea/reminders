@@ -24,6 +24,20 @@ const getListById = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
+const toggleListDone = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const list = await List.findById(id);
+    await List.findOneAndUpdate(
+      { _id: id },
+      { $set: { done: !list?.done } }
+    );
+    res.status(200).json({});
+  } catch (error) {
+    throw error;
+  }
+};
+
 const addList = async (req: Request, res: Response): Promise<void> => {
   try {
     const body = req.body as Pick<IList, 'name' | 'done'>;
@@ -145,6 +159,7 @@ const deleteTodo = async (req: Request, res: Response): Promise<void> => {
 export {
   getLists,
   getListById,
+  toggleListDone,
   addList,
   addTodo,
   getTodos,

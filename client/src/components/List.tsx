@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState, FormEvent, MouseEvent } from 'react';
-import './styles/list.css';
+import './styles/List.css';
 import { Link, useParams } from 'react-router-dom';
 import { addTodo, getListById, getTodosByListId, deleteTodo, toggleTodoDone } from '../Api';
 import Message from './Message';

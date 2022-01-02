@@ -1,0 +1,22 @@
+.list-item__button {
+  background:white;
+  color: #282846;
+  height: 1.5em;
+  width: 3.5em;
+  border: 1px solid rgba(40, 40, 70, 0.3);
+  margin-left: 1em;
+  border-radius: 5px;
+}
+
+.list-item__button:hover {
+  background:#282846;
+  color: white;
+  cursor: pointer;
+}
+
+.list__items {
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}

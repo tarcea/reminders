@@ -1,5 +1,5 @@
 import React, { useEffect, FC } from 'react';
-import './styles/message.css';
+import './styles/Message.css';
 
 const Message: FC<{ message: String, setMessage: Function }> = ({ message, setMessage }) => {
 

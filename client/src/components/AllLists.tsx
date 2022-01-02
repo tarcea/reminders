@@ -1,12 +1,15 @@
 import React, { useEffect, useState, MouseEvent, FC } from 'react';
+import './styles/AllLists.css'
 import { Link } from 'react-router-dom';
 import { getLists, addList, deleteList, addTodo } from '../Api';
 import AddList from './AddList';
+import { useNavigate } from "react-router-dom";
 import List from './List';
 
 const AllLists: FC<{ setCurrentId: Function, currentId: string }> = ({ setCurrentId, currentId }) => {
   const [lists, setLists] = useState<IList[]>([]);
-  // const [currentId, setCurrentId] = useState<string>('');
+  const navigate = useNavigate();
+
   const fetchLists = async () => {
     try {
       const fetchedLists = await getLists();
@@ -45,38 +48,41 @@ const AllLists: FC<{ setCurrentId: Function, currentId: string }> = ({ setCurren
       .catch(err => console.log(err));
   };
 
-  const handleAddTodo = (id: string) => {
-    console.log(id);
-  };
 
   return (
-    <div>
+    <div className="lists__container">
       <AddList saveList={handleAddList} />
       All Lists {lists?.length}
-      <ul>
+      <div className="list__items">
         {lists?.map(li => (
-          <li
+          <div
             key={li._id}
-            onClick={() => setCurrentId(li._id)}
+            onClick={() => navigate(`/lists/${li._id}`)}
+          // onClick={() => setCurrentId(li._id)}
           >
-            <Link to={`/lists/${li._id}`}>{li.name}</Link>
+            <h3>{li.name}</h3>
             <button
+              className="list-item__button"
               onClick={(e: MouseEvent) => {
                 e.stopPropagation();
                 handleDeleteList(li._id);
               }}>
               delete
             </button>
-            <button
-              onClick={(e: MouseEvent) => {
-                e.stopPropagation();
-                handleAddTodo(li._id);
-              }}>
-              add todos
-            </button>
-          </li>
+            <Link
+              to={`/lists/${li._id}`}
+            >
+              <button
+                className="list-item__button"
+                onClick={(e: MouseEvent) => {
+                  e.stopPropagation();
+                }}>
+                edit
+              </button>
+            </Link>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };
