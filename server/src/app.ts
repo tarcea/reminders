@@ -6,6 +6,7 @@ import { Server, Socket } from 'socket.io';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import list from './models/list';
+import { login, signup } from './controllers/auth';
 
 dotenv.config();
 
@@ -33,6 +34,9 @@ mongoose
 app.use(cors());
 app.use(express.json());
 app.use(todoRoutes);
+
+app.post('/users/signup', signup);
+app.post('/users/login', login);
 
 io.on('connection', (socket: Socket) => {
   console.log(`New client connected ${socket.id}`);

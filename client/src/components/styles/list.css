@@ -122,3 +122,9 @@ input[type=number] {
   color: #282846;
   background: rgb(245, 130, 130, 0.5);
 } */
+
+.list__item--dategroup {
+  font-size: x-small;
+  display: flex;
+  justify-content: space-between;
+}

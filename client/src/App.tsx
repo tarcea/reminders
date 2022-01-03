@@ -11,16 +11,16 @@ const App = () => {
 
   return (
     <div>
-      <nav>
-        <ul>
+      <nav className='nav__container'>
+        <ul className='nav__list'>
           <li><Link to={'/'}>home</Link></li>
-          <li><Link to={'/lists'}>lists</Link></li>
+          {/* <li><Link to={'/lists'}>lists</Link></li> */}
           <li><Link to={'/about'}>about</Link></li>
         </ul>
       </nav>
       <Routes>
-        <Route path='/' element={<Landing />} />
-        <Route path='/lists' element={<AllLists setCurrentId={setCurrentId} currentId={currentId} />} />
+        {/* <Route path='/' element={<Landing />} /> */}
+        <Route path='/' element={<AllLists setCurrentId={setCurrentId} currentId={currentId} />} />
         <Route path='/lists/:listId' element={<List currentId={currentId} />} />
         <Route path='/about' element={<About />} />
       </Routes>

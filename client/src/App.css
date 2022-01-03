@@ -28,11 +28,19 @@
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.nav__container {
+  padding: 0.8em;
+}
+.nav__list {
+  display: flex;
+  list-style-type: none;
+  justify-content: space-around;
+}
+
+.nav__list a {
+  color:rgba(40, 40, 70);;
+  font-size: 1.5em;
+}
+.nav__list a:hover {
+  color: rgba(40, 40, 70, 0.5);
 }
