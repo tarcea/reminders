@@ -11,6 +11,7 @@ export interface ITodo extends Document {
 export interface IList extends Document {
   name: string;
   done: boolean;
-  todos?: ITodo[]
-  _id?: string;
+  userId: string;
+  todos: ITodo[];
+  _id?: any;
 }

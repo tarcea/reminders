@@ -14,6 +14,7 @@ const signup = async (req: Request, res: Response): Promise<void> => {
   try {
     const { email, password } = req.body
     const userExists = await User.findOne({ email: email });
+    new Error('oops')
     if (userExists) {
       res.status(400).json({ message: 'this email already exists, please sign in' })
       return;
@@ -28,7 +29,9 @@ const signup = async (req: Request, res: Response): Promise<void> => {
     const token = JWT.sign({ email }, secret, { expiresIn: '8h' })
     res.status(201).json({ token, userId: createdUser?._id, username: createdUser?.username })
   } catch (error) {
-    throw error;
+    let message = 'Unknown Error'
+    if (error instanceof Error) message = error.message
+    res.status(500).json({ message })
   }
 };
 
@@ -42,7 +45,7 @@ const login = async (req: Request, res: Response): Promise<void> => {
     }
     const passwordMatches: boolean = await bcrypt.compare(password, user.password!)
     if (passwordMatches) {
-      const token = JWT.sign({ username }, secret, { expiresIn: '8h' })
+      const token = JWT.sign({ userId: user._id }, secret, { expiresIn: '8h' })
       delete user.password
       res.status(201).json({ token, userId: user?._id, username: user?.username })
       return

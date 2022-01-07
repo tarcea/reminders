@@ -6,8 +6,10 @@ import List from '../models/list';
 
 const getLists = async (req: Request, res: Response): Promise<void> => {
   try {
-    const lists: IList[] = await List.find();
-    res.status(200).json({ lists });
+    const fetchedList: IList[] = await List.find();
+    const { userId } = res.locals.decodedToken;
+    const lists = fetchedList.filter(list => list.userId === userId)
+    res.status(200).json({ lists, userId });
   } catch (error) {
     throw error;
   }
@@ -16,9 +18,14 @@ const getLists = async (req: Request, res: Response): Promise<void> => {
 const getListById = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
+    const { userId } = res.locals.decodedToken;
     const findedList = await List.findById(id);
     const list: IList = findedList!;
-    res.status(200).json({ list });
+    if (list.userId === userId) {
+      res.status(200).json({ list });
+    } else {
+      res.status(401).json({ message: 'Unauthorized' });
+    }
   } catch (error) {
     throw error;
   }
@@ -40,10 +47,12 @@ const toggleListDone = async (req: Request, res: Response): Promise<void> => {
 
 const addList = async (req: Request, res: Response): Promise<void> => {
   try {
-    const body = req.body as Pick<IList, 'name' | 'done'>;
+    const body = req.body as Pick<IList, 'name' | 'done' | 'userId'>;
+    const { name, done, userId } = body;
     const list: IList = new List({
-      name: body.name,
-      done: body.done,
+      name,
+      done,
+      userId
     });
     const newList: IList = await list.save();
 
@@ -79,11 +88,12 @@ const addTodo = async (req: Request, res: Response): Promise<void> => {
       ITodo,
       'name' | 'description' | 'cost' | 'done'
     >;
+    const { name, description, cost, done } = body;
     const todo: ITodo = new Todo({
-      name: body.name,
-      description: body.description,
-      cost: body.cost,
-      done: body.done,
+      name,
+      description,
+      cost,
+      done,
     });
     await List.updateOne({ _id: listId }, { $push: { todos: todo } });
     res.status(201).json({ message: 'new todo added', todo });
@@ -95,14 +105,15 @@ const addTodo = async (req: Request, res: Response): Promise<void> => {
 const getTodos = async (req: Request, res: Response): Promise<void> => {
   let todos: ITodo[];
   try {
+    const { userId } = res.locals.decodedToken;
     const { id } = req.params;
     const findedList = await List.findById(id);
     const list: IList = findedList!
-    if (list) {
+    if (list?.userId === userId) {
       todos = list.todos!;
       res.status(200).json({ todos });
     } else {
-      res.status(200).json({ message: 'no todos here' });
+      res.status(401).json({ message: 'Unauthorized' });
     }
   } catch (error) {
     throw error;
@@ -138,7 +149,6 @@ const toggleTodoDone = async (req: Request, res: Response): Promise<void> => {
 
 const deleteTodo = async (req: Request, res: Response): Promise<void> => {
   try {
-    // const listId = new mongoose.Types.ObjectId(req.params.listId);
     const todoId = new mongoose.Types.ObjectId(req.params.todoId);
     const { listId } = req.params;
 
@@ -156,6 +166,32 @@ const deleteTodo = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
+const updateTodo = async (req: Request, res: Response): Promise<void> => {
+  try {
+    let todos: ITodo[];
+    let updatedTodo: ITodo;
+    const todoId = new mongoose.Types.ObjectId(req.params.todoId);
+    const { listId } = req.params;
+    const findedList = await List.findById(listId);
+    const list: IList = findedList!
+    if (list) {
+      todos = list.todos!;
+      updatedTodo = todos.find((t: ITodo) => t._id?.toString() === req.params.todoId)!;
+      await List.findOneAndUpdate(
+        { _id: listId, "todos._id": todoId },
+        { $set: { "todos.$": { ...updatedTodo, ...req.body } } }
+      );
+      res.status(200).json({
+        todo: { ...updatedTodo, ...req.body },
+        message: "Todo updated",
+      });
+    };
+
+  } catch (error) {
+    throw error;
+  }
+};
+
 export {
   getLists,
   getListById,
@@ -166,4 +202,5 @@ export {
   toggleTodoDone,
   deleteTodo,
   deleteList,
+  updateTodo
 };

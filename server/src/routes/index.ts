@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { verifyUser } from '../middlewares/verifyUser';
 import {
   getLists,
   getListById,
@@ -8,25 +9,27 @@ import {
   getTodos,
   toggleTodoDone,
   deleteTodo,
-  deleteList
+  deleteList,
+  updateTodo
 } from '../controllers';
 
 const router: Router = Router();
 
-router.get('/lists', getLists);
-router.get('/lists/:id', getListById);
-router.put('/lists/:id', toggleListDone);
+router.get('/lists', verifyUser, getLists);
+router.get('/lists/:id', verifyUser, getListById);
+router.put('/lists/:id', verifyUser, toggleListDone);
 
-router.post('/lists', addList);
+router.post('/lists', verifyUser, addList);
 
 // router.delete('/lists/:id', deleteTodoList);
 
-router.get('/lists/:id/todos', getTodos);
+router.get('/lists/:id/todos', verifyUser, getTodos);
 
-router.post('/lists/:id/todos', addTodo);
+router.post('/lists/:id/todos', verifyUser, addTodo);
 // router.post('/lists/:listId/todos/:todoId/subtasks', addSubtask);
 
-router.put('/lists/:listId/todos/:todoId', toggleTodoDone);
+router.put('/lists/:listId/todos/:todoId/toggle', toggleTodoDone);
+router.put('/lists/:listId/todos/:todoId', verifyUser, updateTodo);
 router.delete('/lists/:listId/todos/:todoId', deleteTodo);
 router.delete('/lists/:listId', deleteList);
 

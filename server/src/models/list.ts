@@ -7,6 +7,10 @@ const listSchema: Schema = new Schema(
       type: String,
       required: true,
     },
+    userId: {
+      type: String,
+      required: true,
+    },
     todos: [],
     done: {
       type: Boolean,
