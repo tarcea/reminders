@@ -1,25 +1,49 @@
-import React, { FC, useEffect, useState, FormEvent, MouseEvent } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import './styles/List.css';
-import { Link, useParams } from 'react-router-dom';
-import { addTodo, getListById, getTodosByListId, deleteTodo, toggleTodoDone } from '../Api';
+import { useParams } from 'react-router-dom';
+import { getListById, getTodosByListId, deleteTodo, toggleTodoDone } from '../Api';
 import Message from './Message';
+import AddTodo from './AddTodo';
+import EditTodo from './EditTodo';
+import { io } from 'socket.io-client';
+// import socket from './helpers/socket';
 
-const List: FC<{ currentId: string }> = ({ currentId }) => {
-  const initialState: Omit<ITodo, '_id' | 'done'> = { name: '', description: '', cost: 0 };
+const List: FC = () => {
+  const initialState: Omit<ITodo, '_id' | 'done'> = { name: '', description: '', cost: '' };
   const [formData, setFormData] = useState(initialState);
   const [list, setList] = useState<IList>();
   const [todos, setTodos] = useState<ITodo[]>([]);
   const [message, setMessage] = useState<String>('');
   const [total, setTotal] = useState<number>(0);
+  const [editTodo, setEditTodo] = useState<boolean>(false);
+  const [todoId, setTodoId] = useState<string>('');
   const { listId } = useParams();
 
   const doneTodos: ITodo[] = (todos.length && (todos.filter(todo => todo.done))) || [];
+
+  // const [socket, setSocket] = useState<any>()
+  // const socket = io('http://localhost:3001'); // DEV
+  const socket = io(process.env.REACT_APP_API_URL!); // PROD
+
+
+  useEffect(() => {
+    // socket.on('receive-changes', (data) => {
+    //   console.log(data)
+    // })
+  }, []);
+
+  useEffect(() => {
+    // socket.emit('send-changes', formData)
+  }, []);
+
+  // useEffect(() => {
+  //   socket.emit('send-changes', { editorId: "12345", ops: "gogu de la medgidia" })
+  // }, []);
 
   const fetchListById = async (id: string) => {
     try {
       const fetchedList = await getListById(id);
       setList(fetchedList.data.list);
-
     } catch (err) {
       console.log(err)
     }
@@ -28,10 +52,10 @@ const List: FC<{ currentId: string }> = ({ currentId }) => {
   const fetchTodos = async (id: string) => {
     try {
       const fetchedTodos = await getTodosByListId(id);
-      setTodos(fetchedTodos.data.todos.reverse());
+      setTodos(fetchedTodos.data.todos?.reverse());
       const currentTotal = fetchedTodos
         ? fetchedTodos.data.todos
-          .map(item => (item.cost ? item.cost : 0))
+          .map(item => (item.cost ? Number(item.cost) : 0))
           .reduce(
             (prev, next) =>
               Number(prev !== undefined ? prev : 0) +
@@ -45,30 +69,19 @@ const List: FC<{ currentId: string }> = ({ currentId }) => {
     }
   };
 
+  const getTodoById = (id: string) => {
+    const todoToEdit = todos.filter(todo => todo._id === id)[0];
+    const { name, description, cost } = todoToEdit;
+    setFormData({ name, description, cost });
+  };
+
+
   useEffect(() => {
-    if (currentId) {
-      fetchListById(currentId);
-      fetchTodos(currentId);
-    }
     if (listId) {
       fetchListById(listId);
       fetchTodos(listId);
     }
-  }, [listId, currentId, formData]);
-
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    await addTodo({ ...formData, _id: '', done: false }, listId!)
-    setFormData(initialState);
-    setMessage('new todo added')
-  };
-
-  const handleChange = (e: FormEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.currentTarget.id]: e.currentTarget.value,
-    });
-  };
+  }, [listId, formData]);
 
   const handleDeleteTodo = async (todoId: string) => {
     try {
@@ -83,7 +96,6 @@ const List: FC<{ currentId: string }> = ({ currentId }) => {
   const handleToggleTodoDone = async (todoId: string) => {
     try {
       await toggleTodoDone(listId!, todoId);
-      // setMessage(`toggled todo`);
       fetchTodos(listId!);
     } catch (err) {
       console.log(err);
@@ -91,42 +103,35 @@ const List: FC<{ currentId: string }> = ({ currentId }) => {
   };
 
   const handleClickOnEditButton = (id: string) => {
-    console.log(id)
+    setEditTodo(true);
+    setTodoId(id);
+    getTodoById(id);
+    window.scrollTo(0, 0)
   };
 
   return (
     <div>
       {message && <Message message={message} setMessage={setMessage} />}
-      <form onSubmit={handleSubmit}>
-        <label style={{ display: "none" }}>name</label>
-        <input
-          type="text"
-          required
-          placeholder="add a new task *"
-          id="name"
-          value={formData.name}
-          onChange={handleChange} />
-        <label style={{ display: "none" }}>price</label>
-        <input
-          type="number"
-          id="cost"
-          placeholder="add a price for your task"
-          value={formData.cost}
-          onChange={handleChange} />
-        <label style={{ display: "none" }}>description</label>
-        <input
-          type="text"
-          placeholder="description"
-          id="description"
-          value={formData.description}
-          onChange={handleChange} />
-        <input
-          type="submit"
-          value="add todo" />
-      </form>
-      <h3>{list?.name}</h3>
-      {todos?.length !== 0 && <p>Todos ({todos?.length}):</p>}
-      {total !== 0 && (<p>Total cost: {total}</p>)}
+      <div className="list__header">
+        <div className="list__infos">
+          <h3>{list?.name}</h3>
+          {/* {todos?.length !== 0 && !editTodo && <p>Todos ({todos?.length}):</p>} */}
+          {total !== 0 && !editTodo && (<p>total: {total.toFixed(2)}€</p>)}
+        </div>
+        {editTodo
+          ? <EditTodo
+            formData={formData}
+            setFormData={setFormData}
+            setEditTodo={setEditTodo}
+            socket={socket}
+            todoId={todoId}
+            listId={listId!}
+          />
+          : <AddTodo
+            fetchTodos={fetchTodos}
+          />
+        }
+      </div>
       <div className="todos__container">
         {todos && todos.map(todo => (
           <div
@@ -139,7 +144,7 @@ const List: FC<{ currentId: string }> = ({ currentId }) => {
               <p>{todo.description}</p>
             </div>
             <div className="todo-item__footer">
-              <div>{todo.cost! > 0 && <p><b>{todo.cost}</b>€</p>}</div>
+              <div>{Number(todo.cost)! > 0 && <p><b>{todo.cost}</b>€</p>}</div>
               <div className="todo-item--actions">
                 <button
                   type="button"

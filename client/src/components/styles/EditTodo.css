@@ -1,0 +1,70 @@
+.edit-todo__form {
+  background: var(--color-light-grey);
+  max-width: 35em;
+  display: flex;
+  flex-direction:column;
+  padding:1em;
+  margin: 0 auto;
+  position: relative;
+}
+.edit-todo__form input {
+  margin-bottom: 0.8em;
+  font-size: 1em;
+  height:2em;
+  border-radius:5px;
+  border: 1px solid rgba(40, 40, 70, 0.3);
+  padding: 0.5em;
+}
+
+.edit-todo__form label {
+  color: rgba(40, 40, 70, 0.7);
+  padding-left: 0.2em;
+}
+
+.edit-todo__form textarea {
+  margin-bottom: 0.8em;
+  font-size: 1em;
+  height:6em;
+  border-radius:5px;
+  border: 1px solid rgba(40, 40, 70, 0.3);
+  padding: 0.5em;
+}
+
+
+.edit-todo__form input[type="submit"] {
+  background: rgb(7, 98, 245);
+  border:none;
+  border-radius:5px;
+  height:2.5em;
+  color: var(--color-light-grey);
+}
+
+.edit-todo__form button {
+  margin-bottom: 0.8em;
+  background: rgb(7, 98, 245);
+  color: var(--color-light-grey);
+  font-size: 1em;
+  height:2em;
+  border-radius:5px;
+  border: 1px solid rgba(40, 40, 70, 0.3);
+  padding: 0.5em;
+}
+
+.edit-todo--quit {
+  background: rgb(7, 98, 245);
+  height: 2.5em;
+  width: 2.5em;
+  border-radius: 50%;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  bottom: 355px;
+  right: -9px;
+  color: white;
+}
+
+.edit-todo--quit:hover {
+  cursor: pointer;
+}

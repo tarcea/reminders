@@ -13,11 +13,19 @@ code {
     monospace;
 }
 
-*{
+:root {
+  --ff-sans-serif: 'Nunito', sans-serif;
+  --color-light-grey: #f6f6f8;
+  --color-pink: #DD7596;
+  --ff-ui-title: 'Lato', sans-serif;
+}
+
+* {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  font-family: 'Roboto', sans-serif;
-  font-family: 'Rubik', sans-serif;
+  /* font-family: 'Roboto', sans-serif; */
+  /* font-family: 'Rubik', sans-serif; */
+  font-family: 'Lato', sans-serif;;
   text-decoration: none;
 }

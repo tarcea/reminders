@@ -4,8 +4,8 @@
   height: 1.5em;
   width: 3.5em;
   border: 1px solid rgba(40, 40, 70, 0.3);
-  margin-left: 1em;
   border-radius: 5px;
+  margin-left: 1em;
 }
 
 .list-item__button:hover {
@@ -15,21 +15,47 @@
 }
 
 .list__items {
-  margin: 0;
+  max-width: 35em;
+  max-height: 100vh;
+  margin: 0 auto;
   padding: 0.5em;
   display: flex;
   flex-wrap: wrap;
-  /* gap: 1em; */
+  background: var(--color-light-grey);
 }
 
-.list__item {
+.list-item {
   background: white;
   border: 1px solid rgba(40, 40, 70, 0.2);
   border-radius: 10px;
   padding: 1em 1em 1em 1em;
   margin: 0.5em;
-  /* position: relative; */
   box-sizing: border-box;
   color: #282846;
-  max-width: 12em;
+  width: 100%;
+  height: auto;
+}
+
+.list-item h3 {
+  padding-bottom: 1em;
+}
+
+.list-item__actions {
+  display: flex;
+  /* justify-content: space-around; */
+  padding-bottom: 1em;
+}
+
+.list-item--daysago {
+  padding-bottom: 1em;
+}
+
+.list-item--dategroup {
+  font-size: x-small;
+  opacity: 0.5
+}
+
+.list-item__content {
+  display: flex;
+  justify-content: space-between;
 }

@@ -1,28 +1,33 @@
-import React, { useEffect, useState, MouseEvent, FC } from 'react';
+import React, { useEffect, useState, MouseEvent, FC, useContext } from 'react';
 import './styles/AllLists.css'
 import { Link } from 'react-router-dom';
-import { getLists, addList, deleteList, addTodo } from '../Api';
+import { getLists, addList, deleteList } from '../Api';
 import AddList from './AddList';
 import { useNavigate } from "react-router-dom";
-import List from './List';
+import { UserContext } from '../contexts/UserContext';
 
-const AllLists: FC<{ setCurrentId: Function, currentId: string }> = ({ setCurrentId, currentId }) => {
+const AllLists: FC = () => {
   const [lists, setLists] = useState<IList[]>([]);
+  const [userId, setUserId] = useState<String>('');
+  const { currentUser } = useContext(UserContext)!;
+
   const navigate = useNavigate();
 
   const fetchLists = async () => {
     try {
       const fetchedLists = await getLists();
-      const lists: IList[] = fetchedLists.data.lists.reverse();
+      const lists: IList[] = fetchedLists.data.lists?.reverse();
+      const userId: string = fetchedLists.data.userId!;
       setLists(lists);
+      setUserId(userId)
     } catch (err) {
       console.log(err)
     }
   };
-
+  console.log(userId, currentUser.userId)
   useEffect(() => {
     fetchLists();
-  }, []);
+  }, [userId, currentUser]);
 
   const handleAddList = (formData: IList) => {
     addList(formData)
@@ -55,48 +60,53 @@ const AllLists: FC<{ setCurrentId: Function, currentId: string }> = ({ setCurren
 
   return (
     <div className="lists__container">
+      <div className="todo-list__pill">
+        {lists?.length}
+      </div>
       <AddList saveList={handleAddList} />
-      All Lists {lists?.length}
       <div className="list__items">
         {lists?.map(li => {
           const daysAgo = Math.floor((today.valueOf() - new Date(li.createdAt!).valueOf()) / (1000 * 3600 * 24))
           return (
             <div
-              className="list__item"
+              className="list-item"
               key={li._id}
               onClick={() => navigate(`/lists/${li._id}`)}
-            // onClick={() => setCurrentId(li._id)}
             >
-              <div className="list__item--dategroup">
-                <p>
-                  {new Date(li.createdAt!).toLocaleString('en-GB', options)}
-                </p>
-                <p className="list__item--daysago">
-                  {daysAgo < 9 && (daysAgo === 0
+              <div className="list-item--dategroup">
+                <p className="list-item--daysago">
+                  created {' '} {daysAgo === 0
                     ? 'today'
-                    : daysAgo === 1 ? `${daysAgo} day ago` : `${daysAgo} days ago`)}
+                    : daysAgo === 1 ? `${daysAgo} day ago` : `${daysAgo} days ago`}
                 </p>
               </div>
-              <h3>{li.name}</h3>
-              <button
-                className="list-item__button"
-                onClick={(e: MouseEvent) => {
-                  e.stopPropagation();
-                  handleDeleteList(li._id);
-                }}>
-                delete
-              </button>
-              <Link
-                to={`/lists/${li._id}`}
-              >
-                <button
-                  className="list-item__button"
-                  onClick={(e: MouseEvent) => {
-                    e.stopPropagation();
-                  }}>
-                  edit
-                </button>
-              </Link>
+              <div className="list-item__content">
+                <h3>{li.name}</h3>
+                <div className="list-item__actions">
+                  <button
+                    className="list-item__button"
+                    onClick={(e: MouseEvent) => {
+                      e.stopPropagation();
+                      handleDeleteList(li._id);
+                    }}>
+                    delete
+                  </button>
+                  <Link
+                    to={`/lists/${li._id}`}
+                  >
+                    <button
+                      className="list-item__button"
+                      onClick={(e: MouseEvent) => {
+                        e.stopPropagation();
+                      }}>
+                      edit
+                    </button>
+                  </Link>
+                </div>
+              </div>
+              <p className="list-item--dategroup">
+                updated on {new Date(li.updatedAt!).toLocaleString('en-GB', options)}
+              </p>
             </div>)
         })}
       </div>
