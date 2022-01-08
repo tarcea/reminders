@@ -15,7 +15,6 @@ input[type=number] {
   padding: 1em;
   display: flex;
   flex-direction: column;
-  /* gap: 1em; */
   max-width: 35em;
   margin: 0 auto;
   background: var(--color-light-grey);
@@ -42,6 +41,7 @@ input[type=number] {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-direction: row-reverse;
 }
 
 .todo-item__button {
@@ -50,7 +50,7 @@ input[type=number] {
   height: 1.5em;
   width: 3.5em;
   border: 1px solid rgba(40, 40, 70, 0.3);
-  margin-left: 1em;
+  margin-right: 1em;
   border-radius: 5px;
 }
 
@@ -97,15 +97,9 @@ input[type=number] {
   color: white;
 }
 
-.list__header {
-  
-}
-
 .list__infos {
   display: flex;
-  /* justify-content: space-around; */
   max-width: 35em;
-  /* align-items: center; */
   margin: 0 auto;
   padding: 0.5em;
   background: var(--color-light-grey);
@@ -121,4 +115,15 @@ input[type=number] {
   width: 98%;
   text-align: right;
   margin-right: 10px;
+}
+
+@media screen and (min-width: 768px) {
+  .todo-item__footer {
+    flex-direction: row;
+  }
+
+  .todo-item__button {
+    margin-left: 1em;
+    margin-right: 0;
+  }
 }

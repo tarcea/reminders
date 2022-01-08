@@ -28,6 +28,7 @@ const AddTodo: FC<{ fetchTodos: Function }> = ({ fetchTodos }) => {
         <label style={{ display: "none" }}>name</label>
         <input
           type="text"
+          autoComplete="off"
           required
           placeholder="add a new task *"
           id="name"

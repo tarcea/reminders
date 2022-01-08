@@ -5,7 +5,7 @@
   width: 3.5em;
   border: 1px solid rgba(40, 40, 70, 0.3);
   border-radius: 5px;
-  margin-left: 1em;
+  margin-right: 1em;
 }
 
 .list-item__button:hover {
@@ -58,4 +58,16 @@
 .list-item__content {
   display: flex;
   justify-content: space-between;
+  flex-direction: row-reverse;
+}
+
+@media screen and (min-width: 768px) {
+  .list-item__content {
+    flex-direction: row;
+  }
+
+  .list-item__button {
+    margin-left: 1em;
+    margin-right: 0;
+  }
 }

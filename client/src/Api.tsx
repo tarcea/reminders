@@ -141,6 +141,14 @@ export const login = async (
   }
 };
 
+export const logOut = (setCurrentUser: Function, navigate: Function) => {
+  localStorage.removeItem('token');
+  localStorage.removeItem('userId');
+  localStorage.removeItem('username');
+  setCurrentUser({ token: '', userId: '', username: '' });
+  navigate('./login');
+};
+
 export const signup = async (
   username: string,
   password: string,

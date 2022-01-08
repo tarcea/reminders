@@ -1,7 +1,7 @@
 import React, { useEffect, useState, MouseEvent, FC, useContext } from 'react';
 import './styles/AllLists.css'
 import { Link } from 'react-router-dom';
-import { getLists, addList, deleteList } from '../Api';
+import { getLists, addList, deleteList, logOut } from '../Api';
 import AddList from './AddList';
 import { useNavigate } from "react-router-dom";
 import { UserContext } from '../contexts/UserContext';
@@ -9,7 +9,7 @@ import { UserContext } from '../contexts/UserContext';
 const AllLists: FC = () => {
   const [lists, setLists] = useState<IList[]>([]);
   const [userId, setUserId] = useState<String>('');
-  const { currentUser } = useContext(UserContext)!;
+  const { currentUser, setCurrentUser } = useContext(UserContext)!;
 
   const navigate = useNavigate();
 
@@ -21,10 +21,17 @@ const AllLists: FC = () => {
       setLists(lists);
       setUserId(userId)
     } catch (err) {
-      console.log(err)
+      let message;
+      if (err instanceof Error) {
+        message = err.message;
+        if (message.includes('401')) {
+          logOut(setCurrentUser, navigate)
+        }
+      }
+      console.log(err, message)
     }
   };
-  console.log(userId, currentUser.userId)
+
   useEffect(() => {
     fetchLists();
   }, [userId, currentUser]);

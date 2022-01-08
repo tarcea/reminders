@@ -28,6 +28,7 @@ const AddList: FC<{ saveList: Function }> = ({ saveList }) => {
       <div>
         <input
           className='add-list'
+          autoComplete="off"
           value={formData.name}
           placeholder='add a new list'
           onChange={handleChange}

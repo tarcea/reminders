@@ -23,7 +23,7 @@ const List: FC = () => {
 
   // const [socket, setSocket] = useState<any>()
   // const socket = io('http://localhost:3001'); // DEV
-  const socket = io(process.env.REACT_APP_API_URL!); // PROD
+  // const socket = io(process.env.REACT_APP_API_URL!); // PROD
 
 
   useEffect(() => {
@@ -123,7 +123,6 @@ const List: FC = () => {
             formData={formData}
             setFormData={setFormData}
             setEditTodo={setEditTodo}
-            socket={socket}
             todoId={todoId}
             listId={listId!}
           />

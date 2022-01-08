@@ -6,7 +6,7 @@ const FourOFour = () => {
   return (
     <div className="App">
       <h2>This page does not exist</h2>
-      <button className="fof__to-fun" onClick={() => navigate('/lists')}>go back to fun...</button>
+      <button className="fof__to-fun" onClick={() => navigate('/lists')}>back to fun...</button>
     </div>
   );
 };

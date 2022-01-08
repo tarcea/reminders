@@ -36,6 +36,7 @@ const Signup: FC = () => {
           <label style={{ display: "none" }}>username</label>
           <input
             type="text"
+            autoComplete="off"
             required
             placeholder="username"
             id="username"
@@ -44,6 +45,7 @@ const Signup: FC = () => {
           <label style={{ display: "none" }}>email</label>
           <input
             type="email"
+            autoComplete="off"
             placeholder="email"
             id="email"
             value={formData.email}
@@ -51,6 +53,7 @@ const Signup: FC = () => {
           <label style={{ display: "none" }}>password</label>
           <input
             type="password"
+            autoComplete="off"
             placeholder="password"
             id="password"
             value={formData.password}
