@@ -14,15 +14,14 @@ import { UserContext } from './contexts/UserContext';
 const App = () => {
   const [currentUser, setCurrentUser] = useState<CurrentUser>({ token: '', userId: '', username: '' });
 
+  const value = useMemo(() => ({ currentUser, setCurrentUser }), [currentUser, setCurrentUser])
+
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem('token')!);
     const userId = JSON.parse(localStorage.getItem('userId')!)
     const username = JSON.parse(localStorage.getItem('username')!)
     setCurrentUser({ token, userId, username });
   }, []);
-
-
-  const value = useMemo(() => ({ currentUser, setCurrentUser }), [currentUser, setCurrentUser])
 
   return (
     <>
@@ -36,13 +35,29 @@ const App = () => {
               element={
                 localStorage.token
                   ? <AllLists />
-                  : <Login />}
+                  : <Login />
+              }
             />
-            <Route path='/lists/:listId' element={<List />} />
-            <Route path='/about' element={<About />} />
-            <Route path='/login' element={<Login />} />
-            <Route path='/signup' element={<Signup />} />
-            <Route path="*" element={<FourOFour />} />
+            <Route
+              path='/lists/:listId'
+              element={<List />}
+            />
+            <Route
+              path='/about'
+              element={<About />}
+            />
+            <Route
+              path='/login'
+              element={<Login />}
+            />
+            <Route
+              path='/signup'
+              element={<Signup />}
+            />
+            <Route
+              path="*"
+              element={<FourOFour />}
+            />
           </Routes>
         </main>
         <Footer />

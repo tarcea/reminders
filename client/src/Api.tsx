@@ -1,18 +1,16 @@
 import axios, { AxiosResponse } from "axios";
 
-// const apiUrl: string = process.env.REACT_APP_API_URL!; // PROD
-const apiUrl: string = 'http://localhost:3001'; //DEV
+const apiUrl: string = process.env.REACT_APP_API_URL!; // PROD
+// const apiUrl: string = 'http://localhost:3001'; //DEV
 
 const token = localStorage.token ? JSON.parse(localStorage.getItem('token')!) : '';
 const config = { headers: { 'Authorization': token!, 'Access-Control-Allow-Origin': '*' } }
 
 export const getLists = async (): Promise<AxiosResponse<ApiDataType>> => {
   try {
-    console.log('ss', config)
     const lists: AxiosResponse<ApiDataType> = await axios.get(
       `${apiUrl}/lists`, config
     );
-    console.log(lists)
     return lists;
   } catch (error) {
     throw error;

@@ -15,7 +15,6 @@ const AddList: FC<{ saveList: Function }> = ({ saveList }) => {
       [e.currentTarget.id]: e.currentTarget.value,
     });
   };
-  console.log(userId)
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     await saveList({ ...formData, userId });

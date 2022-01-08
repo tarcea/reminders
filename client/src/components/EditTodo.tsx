@@ -9,7 +9,6 @@ const EditTodo: FC<{ formData: any, setFormData: Function, todoId: string, listI
     e.preventDefault();
     await updateTodo(listId, todoId, formData)
     setEditTodo(false);
-    console.log('edit', formData)
     setFormData(initialState);
   };
 

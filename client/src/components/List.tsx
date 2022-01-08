@@ -5,8 +5,7 @@ import { getListById, getTodosByListId, deleteTodo, toggleTodoDone } from '../Ap
 import Message from './Message';
 import AddTodo from './AddTodo';
 import EditTodo from './EditTodo';
-import { io } from 'socket.io-client';
-// import socket from './helpers/socket';
+import io from 'socket.io-client';
 
 const List: FC = () => {
   const initialState: Omit<ITodo, '_id' | 'done'> = { name: '', description: '', cost: '' };
@@ -20,25 +19,22 @@ const List: FC = () => {
   const { listId } = useParams();
 
   const doneTodos: ITodo[] = (todos.length && (todos.filter(todo => todo.done))) || [];
-
-  // const [socket, setSocket] = useState<any>()
   // const socket = io('http://localhost:3001'); // DEV
-  // const socket = io(process.env.REACT_APP_API_URL!); // PROD
+  const socket = io(process.env.REACT_APP_API_URL!); // PROD
 
-
+  const room = "tteesstt"
   useEffect(() => {
-    // socket.on('receive-changes', (data) => {
-    //   console.log(data)
-    // })
+    socket.emit('join-room', room, (m: any) => {
+      console.log(m)
+    });
+    socket.emit('getTodos', listId, room)
   }, []);
 
   useEffect(() => {
-    // socket.emit('send-changes', formData)
+    socket.on('newData', (data: any) => {
+      setTodos(data.list.todos.reverse());
+    })
   }, []);
-
-  // useEffect(() => {
-  //   socket.emit('send-changes', { editorId: "12345", ops: "gogu de la medgidia" })
-  // }, []);
 
   const fetchListById = async (id: string) => {
     try {
@@ -51,6 +47,7 @@ const List: FC = () => {
 
   const fetchTodos = async (id: string) => {
     try {
+      socket.emit('getTodos', id, room)
       const fetchedTodos = await getTodosByListId(id);
       setTodos(fetchedTodos.data.todos?.reverse());
       const currentTotal = fetchedTodos
@@ -74,7 +71,6 @@ const List: FC = () => {
     const { name, description, cost } = todoToEdit;
     setFormData({ name, description, cost });
   };
-
 
   useEffect(() => {
     if (listId) {

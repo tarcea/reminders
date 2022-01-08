@@ -9,14 +9,6 @@ const Nav: FC = () => {
   const { currentUser, setCurrentUser } = useContext(UserContext)!;
   const { username } = currentUser;
 
-  // const logOut = () => {
-  //   localStorage.removeItem('token');
-  //   localStorage.removeItem('userId');
-  //   localStorage.removeItem('username');
-  //   setCurrentUser({ token: '', userId: '', username: '' });
-  //   navigate('./login');
-  // };
-
   return (
     <header>
       <nav className='nav__container'>
