@@ -1,4 +1,4 @@
-# reminders
+# Todo web app
 
 With this app, you can create lists of tasks.
 In order to create your own lists, you have to login, if you already have an account, or sign up if not. 
@@ -12,11 +12,11 @@ You can see every time how many tasks do you have in a certain list, in the righ
 
 # Tech Stack
 
-Back end
+### Back end
   NodeJS, Express, MongoDB, Mongoose, JWT, Bcrypt
 
-Front end
+### Front end
   React, axios
 
-General
+### General
   Typescript, Socket.io
