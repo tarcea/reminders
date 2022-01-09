@@ -12,7 +12,7 @@ const Nav: FC = () => {
   return (
     <header>
       <nav className='nav__container'>
-        <div className="nav__logo">GT</div>
+        <div className="nav__logo"><Link to={'/lists'}>GT</Link></div>
         <div className="nav__username">{username}</div>
         <ul className='nav__list'>
           {/* <li><Link to={'/'}>home</Link></li> */}

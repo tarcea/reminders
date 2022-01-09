@@ -14,13 +14,17 @@ const Login: FC = () => {
   const navigate = useNavigate();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const currentUser = await login(formData.username, formData.password);
-    setCurrentUser(currentUser);
-    setFormData(initialState);
-    setMessage(`welcome ${currentUser.username}`)
-    window.location.href = '/lists';
-    navigate('/lists');
+    try {
+      e.preventDefault();
+      const currentUser = await login(formData.username, formData.password);
+      setCurrentUser(currentUser);
+      setFormData(initialState);
+      setMessage(`welcome ${currentUser.username}`)
+      window.location.href = '/lists';
+      navigate('/lists');
+    } catch (err) {
+      setMessage('invalid credentials')
+    }
   };
 
   const handleChange = (e: FormEvent<HTMLInputElement>) => {
@@ -32,11 +36,11 @@ const Login: FC = () => {
 
   return (
     <div className="login-form__container">
+      {message && <Message message={message} setMessage={setMessage} />}
       <div className="login-form__inner-container">
         <h2 className="login-form__header">
           Log in
         </h2>
-        {message && <Message message={message} setMessage={setMessage} />}
         <form onSubmit={handleSubmit}>
           <label style={{ display: "none" }}>username</label>
           <input

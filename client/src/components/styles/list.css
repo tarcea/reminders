@@ -25,10 +25,10 @@ input[type=number] {
   border: 1px solid rgba(40, 40, 70, 0.2);
   border-radius: 10px;
   padding: 1em 1em 1em 1em;
-  margin: 0.5em 2em;
+  margin: 0 0 0.5em 0;
   position: relative;
   color: #282846;
-  
+  width: 100%;
 }
 
 .todo-item__container:hover {

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, SetStateAction, Dispatch } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
 import AllLists from './components/AllLists';
@@ -13,8 +13,10 @@ import { UserContext } from './contexts/UserContext';
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState<CurrentUser>({ token: '', userId: '', username: '' });
+  const [message, setMessage] = useState('')
 
-  const value = useMemo(() => ({ currentUser, setCurrentUser }), [currentUser, setCurrentUser])
+  const value = useMemo(() => ({ currentUser, setCurrentUser }), [currentUser, setCurrentUser]);
+  const msgValue = useMemo(() => ({ message, setMessage }), [message, setMessage]);
 
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem('token')!);
@@ -29,7 +31,14 @@ const App = () => {
         <Nav />
         <main className="app__body">
           <Routes>
-            <Route path='/' element={<Login />} />
+            <Route
+              path='/'
+              element={
+                localStorage.token
+                  ? <AllLists />
+                  : <Login />
+              }
+            />
             <Route
               path='/lists'
               element={

@@ -18,7 +18,6 @@ const AddList: FC<{ saveList: Function }> = ({ saveList }) => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     await saveList({ ...formData, userId });
-    console.log({ ...formData, userId })
     setFormData(initialState);
   };
 
