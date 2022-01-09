@@ -1,11 +1,16 @@
 import React, { FC, useEffect, useState } from 'react';
 import './styles/List.css';
 import { useParams } from 'react-router-dom';
-import { getListById, getTodosByListId, deleteTodo, toggleTodoDone } from '../Api';
+import {
+  getListById,
+  getTodosByListId,
+  deleteTodo,
+  toggleTodoDone
+} from '../Api';
 import Message from './Message';
 import AddTodo from './AddTodo';
 import EditTodo from './EditTodo';
-import io from 'socket.io-client';
+import { socket } from '../helpers/socket';
 
 const List: FC = () => {
   const initialState: Omit<ITodo, '_id' | 'done'> = { name: '', description: '', cost: '' };
@@ -18,9 +23,8 @@ const List: FC = () => {
   const [todoId, setTodoId] = useState<string>('');
   const { listId } = useParams();
 
-  const doneTodos: ITodo[] = (todos.length && (todos.filter(todo => todo.done))) || [];
-  // const socket = io('http://localhost:3001'); // DEV
-  const socket = io(process.env.REACT_APP_API_URL!); // PROD
+  const doneTodos: ITodo[] = (
+    todos.length && (todos.filter(todo => todo.done))) || [];
 
   const room = 'editRoom'
   useEffect(() => {

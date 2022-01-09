@@ -1,7 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-
-const apiUrl: string = process.env.REACT_APP_API_URL!; // PROD
-// const apiUrl: string = 'http://localhost:3001'; //DEV
+import { apiUrl } from "./helpers/socket";
 
 const token = localStorage.token ? JSON.parse(localStorage.getItem('token')!) : '';
 const config = { headers: { 'Authorization': token!, 'Access-Control-Allow-Origin': '*' } }
