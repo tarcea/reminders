@@ -19,7 +19,7 @@ const About: FC = () => {
           The status of a task can be toggled by clicking on it. When a task is marked as done, it moves to the end of the list.<br />
           The list editing can be done in parallel by different users by sharing the list url.<br />
           You can see every time how many tasks do you have in a certain list, in the bottom-right corner of the screen, in a total/done type of report.</p>
-        <a href='https://github.com/tarcea/reminders' target='_new' >Github</a>
+        <a href='https://github.com/tarcea' target='_new' >Github</a>
         <div className="landing__link">
           <Link to='/login' className="landing__link_a">let's get started</Link>
         </div>
