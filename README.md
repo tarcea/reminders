@@ -8,7 +8,7 @@ On each list you can see when it was created or updated.
 If you click edit on the list, you can add/edit/delete tasks, inside that particular list.  
 The status of a task can be toggled by clicking on it. When a task is marked as done, it moves to the end of the list.  
 The list editing can be done in parallel by different users by sharing the list url.  
-You can see every time how many tasks do you have in a certain list, in the right-bottom corner of the screen, in a total/done type of report.
+You can see every time how many tasks do you have in a certain list, in the bottom-right corner of the screen, in a total/done type of report.
 
 # Tech Stack
 
