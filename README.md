@@ -1,6 +1,7 @@
 # Todo web app
 
-With this app, you can create lists of tasks.
+With this app, you can create lists of tasks.  
+
 In order to create your own lists, you have to login, if you already have an account, or sign up if not. 
 If you just want to see a demo, you can use the demo account (all the details are in 'about' section of the app).
 After authentication, you can create your own lists and add tasks on those.
