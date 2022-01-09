@@ -19,8 +19,8 @@ const List: FC = () => {
   const { listId } = useParams();
 
   const doneTodos: ITodo[] = (todos.length && (todos.filter(todo => todo.done))) || [];
-  const socket = io('http://localhost:3001'); // DEV
-  // const socket = io(process.env.REACT_APP_API_URL!); // PROD
+  // const socket = io('http://localhost:3001'); // DEV
+  const socket = io(process.env.REACT_APP_API_URL!); // PROD
 
   const room = 'editRoom'
   useEffect(() => {
