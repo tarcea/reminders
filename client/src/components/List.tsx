@@ -24,7 +24,7 @@ const List: FC = () => {
 
   const room = 'editRoom'
   useEffect(() => {
-    socket.emit('join-room', room, (m: any) => {
+    socket.emit('join-room', room, (m: string) => {
       console.log(m)
     });
     socket.emit('getTodos', listId, room)

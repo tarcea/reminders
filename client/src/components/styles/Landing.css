@@ -1,12 +1,10 @@
 .landing__container {
   /* font-family: 'Nunito', sans-serif; */
-  /* width: 100%; */
   max-width: 375px;
   margin: 0 auto;
-  /* background-color: #f7f7f7; */
-  padding: 3rem;
+  /* padding: 1rem; */
   border-radius: 10px;
-  border: 1px solid rgb(7, 98, 245, 0.4);
+  /* border: 1px solid rgb(7, 98, 245, 0.4); */
 }
 
 .landing__container h4 {
@@ -16,7 +14,13 @@
 }
 
 .landing__container p {
-  font-weight: 100;
+  font-weight: 300;
+  padding: 1em;
+}
+
+.landing__container a {
+  padding: 1em;
+  
 }
 
 .landing__link {

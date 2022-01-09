@@ -10,14 +10,21 @@ const About: FC = () => {
     <div>
       <div className="landing__container">
         <h4>Reminder App</h4>
-        <p>This web application is built using NodeJS, Express, MongoDB and Mongoose for bac-kend and React for front-end. The whole project is using Typescript as well.The deployement is done with Heroku and Netlify. For styling I used BEM.</p>
-        <p>With this app, you can create lists of tasks. When you click on a task, the status is toggled in done and the task it is automatically moved to the end of the list. You can edit your tasks, add cost for each of them or a description.</p>
+        <p> With this app, you can create lists of tasks.<br /><br />
+          In order to create your own lists, you have to login, if you already have an account, or sign up if not.<br />
+          If you just want to see a demo, you can use the demo account: username: <b>petrus</b>, password: <b>123456</b><br /><br />
+          After authentication, you can create your own lists and add tasks on those.<br />
+          On each list you can see when it was created or updated.<br />
+          If you click edit on the list, you can add/edit/delete tasks, inside that particular list.<br />
+          The status of a task can be toggled by clicking on it. When a task is marked as done, it moves to the end of the list.<br />
+          The list editing can be done in parallel by different users by sharing the list url.<br />
+          You can see every time how many tasks do you have in a certain list, in the bottom-right corner of the screen, in a total/done type of report.</p>
+        <a href='https://github.com/tarcea/reminders' target='_new' >Github</a>
         <div className="landing__link">
           <Link to='/login' className="landing__link_a">let's get started</Link>
         </div>
       </div>
-      <a href='https://github.com/tarcea/reminders' target='_new' >Github</a>
-      <h5>&copy; Gheorghe Tarcea {currentYear}</h5>
+      {/* <h5>&copy; Gheorghe Tarcea {currentYear}</h5> */}
     </div>
   )
 };

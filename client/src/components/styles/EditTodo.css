@@ -50,6 +50,11 @@
   padding: 0.5em;
 }
 
+.edit-todo__form input[type=submit]:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
 .edit-todo--quit {
   background: rgb(7, 98, 245);
   height: 2.5em;

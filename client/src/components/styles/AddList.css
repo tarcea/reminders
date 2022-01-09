@@ -26,3 +26,8 @@
   color: var(--color-light-grey);
   width: 100%;
 }
+
+.add-list--create:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
