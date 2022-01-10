@@ -136,7 +136,7 @@ const List: FC = () => {
           <h3
             className="list__items__title todos__container__title"
           >
-            Tasks on list: {' '}
+            Todos on list: {' '}
             <span>'{list?.name}'</span>
           </h3> : ''
         }
