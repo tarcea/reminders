@@ -76,7 +76,7 @@ const AllLists: FC = () => {
       </div>
       <AddList saveList={handleAddList} />
       <div className="list__items">
-        {lists && <h3 className="list__items__title">All lists</h3>}
+        {lists.length ? <h3 className="list__items__title">All lists</h3> : ''}
         {lists?.map(li => {
           const daysAgo = Math.floor((today.valueOf() - new Date(li.createdAt!).valueOf()) / (1000 * 3600 * 24))
           return (
