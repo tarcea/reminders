@@ -61,6 +61,12 @@
   flex-direction: row-reverse;
 }
 
+.list__items__title {
+  text-align: center;
+  width: 100%;
+  opacity: 0.5;
+}
+
 @media screen and (min-width: 768px) {
   .list-item__content {
     flex-direction: row;

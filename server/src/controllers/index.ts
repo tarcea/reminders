@@ -73,7 +73,7 @@ const deleteList = async (req: Request, res: Response): Promise<void> => {
     await List.findOneAndDelete(
       { _id: listId }
     ).exec();
-    res.status(204).json({
+    res.status(200).json({
       message: 'list deleted'
     });
   } catch (error) {
@@ -158,7 +158,7 @@ const deleteTodo = async (req: Request, res: Response): Promise<void> => {
         $pull: { todos: { _id: todoId } }
       }
     ).exec();
-    res.status(204).json({
+    res.status(200).json({
       message: 'todo deleted'
     });
   } catch (error) {

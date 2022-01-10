@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import './styles/List.css';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import {
   getListById,
   getTodosByListId,
@@ -132,6 +132,15 @@ const List: FC = () => {
         }
       </div>
       <div className="todos__container">
+        {todos?.length ?
+          <h3
+            className="list__items__title todos__container__title"
+          >
+            Tasks on list: {' '}
+            <span>'{list?.name}'</span>
+          </h3> : ''
+        }
+        <Link to={'/lists'} className="list__items-back">{'< back to lists'}</Link>
         {todos && todos.map(todo => (
           <div
             key={todo._id}

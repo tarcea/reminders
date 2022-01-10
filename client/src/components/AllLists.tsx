@@ -36,28 +36,32 @@ const AllLists: FC = () => {
     fetchLists();
   }, [userId, currentUser]);
 
-  const handleAddList = (formData: IList) => {
-    addList(formData)
-      .then(({ status, data }) => {
-        if (status !== 201) {
-          throw new Error('Error! list not saved');
-        }
-        setLists(data.lists);
-        fetchLists();
-      })
-      .catch(err => console.log(err));
+  const handleAddList = async (formData: IList) => {
+    try {
+      const addedList = await addList(formData);
+      const { status, data } = addedList;
+      if (status !== 201) {
+        throw new Error('Error! list not saved');
+      }
+      setLists(data.lists);
+      fetchLists();
+    } catch (err) {
+      console.log(err)
+    }
   };
 
-  const handleDeleteList = (id: string) => {
-    deleteList(id)
-      .then(({ status, data }) => {
-        if (status !== 200) {
-          throw new Error('Error! list not deleted');
-        }
-        setLists(data.lists);
-        fetchLists();
-      })
-      .catch(err => console.log(err));
+  const handleDeleteList = async (id: string) => {
+    try {
+      const deletedList = await deleteList(id);
+      const { status, data } = deletedList;
+      if (status !== 200) {
+        throw new Error('Error! list not deleted');
+      }
+      setLists(data.lists);
+      fetchLists();
+    } catch (err) {
+      console.log(err)
+    }
   };
 
   const today: Date = new Date();
@@ -72,6 +76,7 @@ const AllLists: FC = () => {
       </div>
       <AddList saveList={handleAddList} />
       <div className="list__items">
+        {lists && <h3 className="list__items__title">All lists</h3>}
         {lists?.map(li => {
           const daysAgo = Math.floor((today.valueOf() - new Date(li.createdAt!).valueOf()) / (1000 * 3600 * 24))
           return (
