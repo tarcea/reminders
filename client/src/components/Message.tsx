@@ -6,7 +6,7 @@ const Message: FC<{ message: String, setMessage: Function }> = ({ message, setMe
   useEffect(() => {
     const delay = setTimeout(() => {
       setMessage('')
-    }, 1500);
+    }, 1600);
     return () => {
       clearTimeout(delay)
     }

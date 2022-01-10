@@ -73,7 +73,7 @@ const deleteList = async (req: Request, res: Response): Promise<void> => {
     await List.findOneAndDelete(
       { _id: listId }
     ).exec();
-    res.status(200).json({
+    res.status(204).json({
       message: 'list deleted'
     });
   } catch (error) {
@@ -136,11 +136,11 @@ const toggleTodoDone = async (req: Request, res: Response): Promise<void> => {
     };
 
     await List.findOneAndUpdate(
-      { _id: listId, "todos._id": todoId },
-      { $set: { "todos.$.done": !doneFlag } }
+      { _id: listId, 'todos._id': todoId },
+      { $set: { 'todos.$.done': !doneFlag } }
     );
     res.status(200).json({
-      message: "Todo updated",
+      message: 'Todo updated',
     });
   } catch (error) {
     throw error;
@@ -158,7 +158,7 @@ const deleteTodo = async (req: Request, res: Response): Promise<void> => {
         $pull: { todos: { _id: todoId } }
       }
     ).exec();
-    res.status(200).json({
+    res.status(204).json({
       message: 'todo deleted'
     });
   } catch (error) {
@@ -178,22 +178,18 @@ const updateTodo = async (req: Request, res: Response): Promise<void> => {
       todos = list.todos!;
       updatedTodo = todos.find((t: ITodo) => t._id?.toString() === req.params.todoId)!;
       await List.findOneAndUpdate(
-        { _id: listId, "todos._id": todoId },
-        { $set: { "todos.$": { ...updatedTodo, ...req.body } } }
+        { _id: listId, 'todos._id': todoId },
+        { $set: { 'todos.$': { ...updatedTodo, ...req.body } } }
       );
       res.status(200).json({
         todo: { ...updatedTodo, ...req.body },
-        message: "Todo updated",
+        message: 'Todo updated',
       });
     };
 
   } catch (error) {
     throw error;
   }
-};
-
-const test2 = () => {
-  return "gogonel"
 };
 
 export {
@@ -206,6 +202,5 @@ export {
   toggleTodoDone,
   deleteTodo,
   deleteList,
-  updateTodo,
-  test2
+  updateTodo
 };

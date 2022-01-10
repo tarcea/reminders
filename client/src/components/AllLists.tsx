@@ -40,7 +40,7 @@ const AllLists: FC = () => {
     addList(formData)
       .then(({ status, data }) => {
         if (status !== 201) {
-          throw new Error("Error! list not saved");
+          throw new Error('Error! list not saved');
         }
         setLists(data.lists);
         fetchLists();
@@ -52,7 +52,7 @@ const AllLists: FC = () => {
     deleteList(id)
       .then(({ status, data }) => {
         if (status !== 200) {
-          throw new Error("Error! TodoList not deleted");
+          throw new Error('Error! list not deleted');
         }
         setLists(data.lists);
         fetchLists();
