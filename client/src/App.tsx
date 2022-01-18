@@ -13,10 +13,9 @@ import { UserContext } from './contexts/UserContext';
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState<CurrentUser>({ token: '', userId: '', username: '' });
-  const [message, setMessage] = useState('')
 
-  const value = useMemo(() => ({ currentUser, setCurrentUser }), [currentUser, setCurrentUser]);
-  const msgValue = useMemo(() => ({ message, setMessage }), [message, setMessage]);
+  // const value = useMemo(() => ({ currentUser, setCurrentUser }), [currentUser, setCurrentUser]);
+
 
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem('token')!);
@@ -27,7 +26,7 @@ const App = () => {
 
   return (
     <>
-      <UserContext.Provider value={value}>
+      <UserContext.Provider value={{ currentUser, setCurrentUser }}>
         <Nav />
         <main className="app__body">
           <Routes>

@@ -38,6 +38,7 @@ const List: FC = () => {
     socket.on('newData', (data: any) => {
       setTodos(data.list.todos.reverse());
     })
+    return () => { socket.disconnect() }
   }, []);
 
   const fetchListById = async (id: string) => {
@@ -131,7 +132,7 @@ const List: FC = () => {
           />
         }
       </div>
-      <div className="todos__container">
+      {!editTodo && (<div className="todos__container">
         {todos?.length ?
           <h3
             className="list__items__title todos__container__title"
@@ -178,7 +179,7 @@ const List: FC = () => {
             </div>
           </div>
         ))}
-      </div>
+      </div>)}
       <div className="todo-list__pill">
         {todos.length}
         /
